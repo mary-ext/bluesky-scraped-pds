@@ -1,6 +1,6 @@
 # Scraped AT Protocol instances
 
-Last updated: 2024-10-19T07:27:55.625Z[^1]
+Last updated: 2024-10-19T07:35:36.133Z[^1]
 
 Found by enumerating plc.directory and bsky.network, some instances might not be
 part of mainnet.
@@ -590,7 +590,19 @@ Instances that have not been active for more than 7 days gets dropped off from t
 **69** online  
 **14** offline
 
-<!-- labeler-start -->
+### Bluesky labelers
+
+<!-- bsky-labeler-start -->
+| Labeler | Version |
+| --- | --- |
+| ✅ mod-br.bsky.app | git-60df3fc |
+| ✅ mod-de.bsky.app | git-60df3fc |
+| ✅ mod.bsky.app | git-60df3fc |
+<!-- bsky-labeler-end -->
+
+### Third-party labelers
+
+<!-- 3p-labeler-start -->
 | Labeler | Version |
 | --- | --- |
 | ✅ 2.ripperoni.com | 0.1.38 |
@@ -620,11 +632,8 @@ Instances that have not been active for more than 7 days gets dropped off from t
 | ❌ medsky.williancima.dev | ??? |
 | ✅ merke.maanebedotten.no | 0.1.38 |
 | ❌ mimonelu.net | ??? |
-| ✅ mod-br.bsky.app | git-60df3fc |
-| ✅ mod-de.bsky.app | git-60df3fc |
 | ✅ mod.armifi.com | 0.1.38 |
 | ✅ mod.blackskyweb.xyz | 0.1.38 |
-| ✅ mod.bsky.app | git-60df3fc |
 | ✅ mod.laelaps.fyi | 0.1.38 |
 | ✅ mod.staging.bsky.dev | git-60df3fc |
 | ❌ mod.zio.blue | ??? |
@@ -676,6 +685,8 @@ Instances that have not been active for more than 7 days gets dropped off from t
 | ✅ uspollabeler.blakeslabs.com | 0.1.38 |
 | ✅ warlabel.dattil.io | 0.1.38 |
 | ✅ xblock.aendra.dev | 0.1.38 |
-<!-- labeler-end -->
+<!-- 3p-labeler-end -->
+
+---
 
 [^1]: Reflecting actual changes, not when the scraper was last run

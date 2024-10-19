@@ -25,7 +25,8 @@ let state: SerializedState | undefined;
 {
 	const PDS_BSKY_TABLE = /(?<=<!-- bsky-pds-start -->)[^]*(?=<!-- bsky-pds-end -->)/;
 	const PDS_3P_TABLE = /(?<=<!-- 3p-pds-start -->)[^]*(?=<!-- 3p-pds-end -->)/;
-	const LABELER_RE = /(?<=<!-- labeler-start -->)[^]*(?=<!-- labeler-end -->)/;
+	const LABELER_BSKY_RE = /(?<=<!-- bsky-labeler-start -->)[^]*(?=<!-- bsky-labeler-end -->)/;
+	const LABELER_3P_RE = /(?<=<!-- 3p-labeler-start -->)[^]*(?=<!-- 3p-labeler-end -->)/;
 
 	const template = `# Scraped AT Protocol instances
 
@@ -52,7 +53,15 @@ Instances that have not been active for more than 7 days gets dropped off from t
 
 {{labelerSummary}}
 
-<!-- labeler-start --><!-- labeler-end -->
+### Bluesky labelers
+
+<!-- bsky-labeler-start --><!-- bsky-labeler-end -->
+
+### Third-party labelers
+
+<!-- 3p-labeler-start --><!-- 3p-labeler-end -->
+
+---
 
 [^1]: Reflecting actual changes, not when the scraper was last run
 `;
@@ -67,7 +76,12 @@ Instances that have not been active for more than 7 days gets dropped off from t
 | --- | --- | --- |
 `;
 
-	let labelerTable = `
+	let labeler3pTable = `
+| Labeler | Version |
+| --- | --- |
+`;
+
+	let labelerBskyTable = `
 | Labeler | Version |
 | --- | --- |
 `;
@@ -99,7 +113,11 @@ Instances that have not been active for more than 7 days gets dropped off from t
 		const on = errorAt === undefined ? '✅' : '❌';
 		const v = version || (version === null ? 'N/A' : '???');
 
-		labelerTable += `| ${on} ${host} | ${v} |\n`;
+		if (host.endsWith('.bsky.app')) {
+			labelerBskyTable += `| ${on} ${host} | ${v} |\n`;
+		} else {
+			labeler3pTable += `| ${on} ${host} | ${v} |\n`;
+		}
 	}
 
 	// Read existing Markdown file, check if it's equivalent
@@ -111,7 +129,8 @@ Instances that have not been active for more than 7 days gets dropped off from t
 		if (
 			PDS_3P_TABLE.exec(source)?.[0] === pds3pTable &&
 			PDS_BSKY_TABLE.exec(source)?.[0] === pdsBskyTable &&
-			LABELER_RE.exec(source)?.[0] === labelerTable
+			LABELER_3P_RE.exec(source)?.[0] === labeler3pTable &&
+			LABELER_BSKY_RE.exec(source)?.[0] === labelerBskyTable
 		) {
 			shouldWrite = false;
 		}
@@ -125,7 +144,8 @@ Instances that have not been active for more than 7 days gets dropped off from t
 			.replace('{{labelerSummary}}', getLabelerSummary())
 			.replace(PDS_3P_TABLE, pds3pTable)
 			.replace(PDS_BSKY_TABLE, pdsBskyTable)
-			.replace(LABELER_RE, labelerTable);
+			.replace(LABELER_3P_RE, labeler3pTable)
+			.replace(LABELER_BSKY_RE, labelerBskyTable);
 
 		await Bun.write(env.RESULT_FILE, final);
 		console.log(`wrote to ${env.RESULT_FILE}`);
