@@ -23,7 +23,8 @@ let state: SerializedState | undefined;
 
 // Markdown stuff
 {
-	const PDS_RE = /(?<=<!-- pds-start -->)[^]*(?=<!-- pds-end -->)/;
+	const PDS_BSKY_TABLE = /(?<=<!-- bsky-pds-start -->)[^]*(?=<!-- bsky-pds-end -->)/;
+	const PDS_3P_TABLE = /(?<=<!-- 3p-pds-start -->)[^]*(?=<!-- 3p-pds-end -->)/;
 	const LABELER_RE = /(?<=<!-- labeler-start -->)[^]*(?=<!-- labeler-end -->)/;
 
 	const template = `# Scraped AT Protocol instances
@@ -39,7 +40,13 @@ Instances that have not been active for more than 7 days gets dropped off from t
 
 {{pdsSummary}}
 
-<!-- pds-start --><!-- pds-end -->
+### Bluesky-hosted servers
+
+<!-- bsky-pds-start --><!-- bsky-pds-end -->
+
+### Third-party servers
+
+<!-- 3p-pds-start --><!-- 3p-pds-end -->
 
 ## Labelers
 
@@ -50,7 +57,12 @@ Instances that have not been active for more than 7 days gets dropped off from t
 [^1]: Reflecting actual changes, not when the scraper was last run
 `;
 
-	let pdsTable = `
+	let pds3pTable = `
+| PDS | Open? | Version |
+| --- | --- | --- |
+`;
+
+	let pdsBskyTable = `
 | PDS | Open? | Version |
 | --- | --- | --- |
 `;
@@ -72,7 +84,11 @@ Instances that have not been active for more than 7 days gets dropped off from t
 		const v = version || (version === null ? 'N/A' : '???');
 		const invites = inviteCodeRequired === false ? 'Yes' : 'No';
 
-		pdsTable += `| ${on} ${host} | ${invites} | ${v} |\n`;
+		if (host === 'bsky.social' || host.endsWith('.host.bsky.network')) {
+			pdsBskyTable += `| ${on} ${host} | ${invites} | ${v} |\n`;
+		} else {
+			pds3pTable += `| ${on} ${host} | ${invites} | ${v} |\n`;
+		}
 	}
 
 	// Generate the labeler table
@@ -92,7 +108,11 @@ Instances that have not been active for more than 7 days gets dropped off from t
 	try {
 		const source = await Bun.file(env.RESULT_FILE).text();
 
-		if (PDS_RE.exec(source)?.[0] === pdsTable && LABELER_RE.exec(source)?.[0] === labelerTable) {
+		if (
+			PDS_3P_TABLE.exec(source)?.[0] === pds3pTable &&
+			PDS_BSKY_TABLE.exec(source)?.[0] === pdsBskyTable &&
+			LABELER_RE.exec(source)?.[0] === labelerTable
+		) {
 			shouldWrite = false;
 		}
 	} catch {}
@@ -103,7 +123,8 @@ Instances that have not been active for more than 7 days gets dropped off from t
 			.replace('{{time}}', new Date().toISOString())
 			.replace('{{pdsSummary}}', getPdsSummary())
 			.replace('{{labelerSummary}}', getLabelerSummary())
-			.replace(PDS_RE, pdsTable)
+			.replace(PDS_3P_TABLE, pds3pTable)
+			.replace(PDS_BSKY_TABLE, pdsBskyTable)
 			.replace(LABELER_RE, labelerTable);
 
 		await Bun.write(env.RESULT_FILE, final);

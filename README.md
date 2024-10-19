@@ -1,6 +1,6 @@
 # Scraped AT Protocol instances
 
-Last updated: 2024-10-19T01:16:04.749Z[^1]
+Last updated: 2024-10-19T07:27:55.625Z[^1]
 
 Found by enumerating plc.directory and bsky.network, some instances might not be
 part of mainnet.
@@ -15,7 +15,53 @@ Instances that have not been active for more than 7 days gets dropped off from t
 **37** hosted by Bluesky  
 **518** hosted by third-parties
 
-<!-- pds-start -->
+### Bluesky-hosted servers
+
+<!-- bsky-pds-start -->
+| PDS | Open? | Version |
+| --- | --- | --- |
+| ✅ agaric.us-west.host.bsky.network | No | git-b298bfd |
+| ✅ amanita.us-east.host.bsky.network | No | git-b298bfd |
+| ✅ blewit.us-west.host.bsky.network | No | git-b298bfd |
+| ✅ boletus.us-west.host.bsky.network | No | git-b298bfd |
+| ✅ bracket.us-west.host.bsky.network | No | git-bcefbdb |
+| ✅ button.us-west.host.bsky.network | No | git-bcefbdb |
+| ✅ chaga.us-west.host.bsky.network | No | git-b298bfd |
+| ✅ chanterelle.us-west.host.bsky.network | No | git-bcefbdb |
+| ✅ conocybe.us-west.host.bsky.network | No | git-b298bfd |
+| ✅ coral.us-east.host.bsky.network | No | git-bcefbdb |
+| ✅ cordyceps.us-west.host.bsky.network | No | git-bcefbdb |
+| ✅ cremini.us-west.host.bsky.network | No | git-bcefbdb |
+| ✅ enoki.us-east.host.bsky.network | No | git-b298bfd |
+| ✅ ganoderma.us-west.host.bsky.network | No | git-bcefbdb |
+| ✅ gomphus.us-west.host.bsky.network | No | git-bcefbdb |
+| ✅ hedgehog.us-west.host.bsky.network | No | git-b298bfd |
+| ✅ hydnum.us-west.host.bsky.network | No | git-b298bfd |
+| ✅ inkcap.us-east.host.bsky.network | No | git-b298bfd |
+| ✅ lepista.us-west.host.bsky.network | No | git-b298bfd |
+| ✅ lionsmane.us-east.host.bsky.network | No | git-b298bfd |
+| ✅ lobster.us-east.host.bsky.network | No | git-bcefbdb |
+| ✅ magic.us-west.host.bsky.network | No | git-bcefbdb |
+| ✅ maitake.us-west.host.bsky.network | No | git-b298bfd |
+| ✅ matsutake.us-west.host.bsky.network | No | git-bcefbdb |
+| ✅ milkcap.us-west.host.bsky.network | No | git-bcefbdb |
+| ✅ morel.us-east.host.bsky.network | No | git-b298bfd |
+| ✅ oyster.us-east.host.bsky.network | No | git-b298bfd |
+| ✅ porcini.us-east.host.bsky.network | No | git-b298bfd |
+| ✅ puffball.us-east.host.bsky.network | No | git-b298bfd |
+| ✅ russula.us-west.host.bsky.network | No | git-b298bfd |
+| ✅ shaggymane.us-west.host.bsky.network | No | git-bcefbdb |
+| ✅ shiitake.us-east.host.bsky.network | No | git-b298bfd |
+| ✅ shimeji.us-east.host.bsky.network | No | git-b298bfd |
+| ✅ stinkhorn.us-west.host.bsky.network | No | git-bcefbdb |
+| ✅ verpa.us-west.host.bsky.network | No | git-b298bfd |
+| ✅ witchesbutter.us-west.host.bsky.network | No | git-bcefbdb |
+| ✅ woodear.us-west.host.bsky.network | No | git-bcefbdb |
+<!-- bsky-pds-end -->
+
+### Third-party servers
+
+<!-- 3p-pds-start -->
 | PDS | Open? | Version |
 | --- | --- | --- |
 | ❌ 0002002.xyz | No | ??? |
@@ -29,10 +75,8 @@ Instances that have not been active for more than 7 days gets dropped off from t
 | ❌ acger.life | No | ??? |
 | ✅ acpr.dev | No | 0.4.59 |
 | ✅ afternooncurry.com | No | 0.4.59 |
-| ✅ agaric.us-west.host.bsky.network | No | git-b298bfd |
 | ✅ akiba.tokyo.jp | No | 0.4.59 |
 | ✅ aliciousintent.com | No | 0.4.27 |
-| ✅ amanita.us-east.host.bsky.network | No | git-b298bfd |
 | ✅ amethyst.name | No | 0.4.59 |
 | ✅ angels.fan | No | 0.4.59 |
 | ✅ anna.lgbt | No | 0.4.59 |
@@ -61,7 +105,6 @@ Instances that have not been active for more than 7 days gets dropped off from t
 | ✅ biglargeclarke.social | No | 0.4.55 |
 | ✅ bitemy.app | No | 0.4.59 |
 | ✅ blacksky.app | No | 0.3.0-beta.3 |
-| ✅ blewit.us-west.host.bsky.network | No | git-b298bfd |
 | ✅ blsk.neonweb.org | No | 0.4.59 |
 | ✅ blsky.y-syo.me | No | 0.4.59 |
 | ✅ blu.pikafan.de | No | 0.4.59 |
@@ -100,11 +143,9 @@ Instances that have not been active for more than 7 days gets dropped off from t
 | ✅ bluesky.xsns.jp | No | 0.4.59 |
 | ✅ bluesky.zergy.net | No | 0.4.59 |
 | ✅ bluetony.com | No | 0.4.59 |
-| ✅ boletus.us-west.host.bsky.network | No | git-b298bfd |
 | ✅ botspopuli.at | No | 0.4.59 |
 | ✅ bousky.social | No | 0.4.59 |
 | ✅ boymodelworld.com | No | 0.4.59 |
-| ✅ bracket.us-west.host.bsky.network | No | git-bcefbdb |
 | ✅ brioco.space | No | 0.4.59 |
 | ✅ bs.aiforward.jp | No | 0.4.59 |
 | ✅ bs.cmeu.us | No | 0.4.59 |
@@ -225,24 +266,17 @@ Instances that have not been active for more than 7 days gets dropped off from t
 | ❌ bsky2.worryleek.es | No | ??? |
 | ✅ bskysocial.world | No | 0.4.59 |
 | ❌ bspds.yuvi.app | No | ??? |
-| ✅ button.us-west.host.bsky.network | No | git-bcefbdb |
 | ✅ catgirls.space | No | 0.4.59 |
-| ✅ chaga.us-west.host.bsky.network | No | git-b298bfd |
-| ✅ chanterelle.us-west.host.bsky.network | No | git-bcefbdb |
 | ✅ ciql.net | No | 0.4.59 |
 | ✅ cirno.xsns.jp | No | 0.4.59 |
 | ✅ clacks.social | No | 0.4.59 |
 | ❌ cliffhosting.com | No | ??? |
 | ✅ colibrisec.io | No | 0.4.59 |
 | ✅ comrades.social | No | 0.4.59 |
-| ✅ conocybe.us-west.host.bsky.network | No | git-b298bfd |
-| ✅ coral.us-east.host.bsky.network | No | git-bcefbdb |
-| ✅ cordyceps.us-west.host.bsky.network | No | git-bcefbdb |
 | ✅ corgi.dance | No | 0.4.59 |
 | ✅ cos.xsns.jp | No | 0.4.59 |
 | ✅ cozy.me.uk | No | 0.4.59 |
 | ✅ creaton.social | No | 0.5.3 |
-| ✅ cremini.us-west.host.bsky.network | No | git-bcefbdb |
 | ✅ cybernetica.cc | No | 0.4.59 |
 | ✅ daemons.work | No | 0.4.47 |
 | ✅ danya.dev | No | 0.4.59 |
@@ -256,7 +290,6 @@ Instances that have not been active for more than 7 days gets dropped off from t
 | ❌ ec2-34-211-29-118.us-west-2.compute.amazonaws.com | No | ??? |
 | ❌ ec2-35-165-202-12.us-west-2.compute.amazonaws.com | No | 0.4.59 |
 | ✅ edwz.com.br | No | 0.4.59 |
-| ✅ enoki.us-east.host.bsky.network | No | git-b298bfd |
 | ❌ enzi.dev | No | 0.4.59 |
 | ✅ estrogen.rocks | No | 0.4.59 |
 | ✅ estyl.io | No | 0.0.1 |
@@ -273,7 +306,6 @@ Instances that have not been active for more than 7 days gets dropped off from t
 | ✅ furry.pm | No | 0.4.59 |
 | ✅ furry.rest | No | 0.4.59 |
 | ❌ galliumyttrium.ca | No | 0.4.59 |
-| ✅ ganoderma.us-west.host.bsky.network | No | git-bcefbdb |
 | ❌ gear.blue | No | 0.4.55 |
 | ✅ genx.xsns.jp | No | 0.4.59 |
 | ✅ gesetz-bsky.world | Yes | 0.4.59 |
@@ -281,13 +313,11 @@ Instances that have not been active for more than 7 days gets dropped off from t
 | ✅ girl.technology | No | 0.4.59 |
 | ✅ goblin.club | No | 0.4.59 |
 | ✅ goeo.lol | No | 0.4.59 |
-| ✅ gomphus.us-west.host.bsky.network | No | git-bcefbdb |
 | ✅ gonta.net | No | 0.4.59 |
 | ✅ gray.network | No | 0.4.59 |
 | ❌ guerra24.net | No | ??? |
 | ✅ habanero.f5.si | No | 0.4.59 |
 | ✅ habitat-dev.tail07d32.ts.net | No | 0.4.53 |
-| ✅ hedgehog.us-west.host.bsky.network | No | git-b298bfd |
 | ✅ hellthread.pro | No | 0.4.59 |
 | ✅ hellz.online | No | 0.4.59 |
 | ✅ hivetasks.com | No | 0.4.59 |
@@ -295,12 +325,10 @@ Instances that have not been active for more than 7 days gets dropped off from t
 | ✅ holofan.live | No | 0.4.59 |
 | ✅ home.okdog.link | No | 0.4.59 |
 | ✅ hooray.social | No | 0.4.59 |
-| ✅ hydnum.us-west.host.bsky.network | No | git-b298bfd |
 | ✅ iame.li | No | 0.4.47 |
 | ❌ id.estyl.io | No | ??? |
 | ❌ id.estylhq.com | No | ??? |
 | ✅ imadeitthefuckup.org | No | 0.4.59 |
-| ✅ inkcap.us-east.host.bsky.network | No | git-b298bfd |
 | ✅ internect.ing | No | 0.4.59 |
 | ❌ irecovery.live | No | 0.4.59 |
 | ❌ is.stillsleepy.net | No | ??? |
@@ -325,33 +353,25 @@ Instances that have not been active for more than 7 days gets dropped off from t
 | ✅ lalasky.fun | No | 0.4.59 |
 | ✅ lamp.wtf | No | 0.4.52 |
 | ✅ latexsky.com | No | 0.4.59 |
-| ✅ lepista.us-west.host.bsky.network | No | git-b298bfd |
 | ✅ lerche.cloud | No | 0.4.59 |
 | ✅ lesbian.school | No | 0.4.59 |
 | ✅ liliangomes.com | No | 0.4.59 |
-| ✅ lionsmane.us-east.host.bsky.network | No | git-b298bfd |
 | ✅ little.cheap | No | 0.4.59 |
 | ✅ liurnia.rishav.io | No | 0.4.59 |
 | ❌ lizsec.ca | No | ??? |
-| ✅ lobster.us-east.host.bsky.network | No | git-bcefbdb |
 | ✅ lockard.me | No | 0.4.59 |
 | ✅ lovergirl.gay | No | 0.4.59 |
 | ✅ lunalycanthro.xyz | No | 0.4.59 |
 | ✅ m.nathanyu.me | No | 0.4.59 |
 | ✅ madhammer.club | No | 0.4.59 |
 | ✅ madiator.cloud | No | 0.4.59 |
-| ✅ magic.us-west.host.bsky.network | No | git-bcefbdb |
 | ✅ magrasea.com | No | 0.4.59 |
-| ✅ maitake.us-west.host.bsky.network | No | git-b298bfd |
-| ✅ matsutake.us-west.host.bsky.network | No | git-bcefbdb |
 | ✅ meety.me | No | 0.4.59 |
 | ✅ megacasa.xyz | No | 0.4.59 |
 | ❌ middendorfmar.co | No | ??? |
-| ✅ milkcap.us-west.host.bsky.network | No | git-bcefbdb |
 | ✅ moegi.stream | No | 0.4.59 |
 | ❌ moogleyacht.club | No | 0.4.59 |
 | ✅ moore.social | No | 0.4.59 |
-| ✅ morel.us-east.host.bsky.network | No | git-b298bfd |
 | ❌ mouse.social | No | ??? |
 | ✅ mraow.party | No | 0.4.59 |
 | ❌ myu.sh | No | ??? |
@@ -367,7 +387,6 @@ Instances that have not been active for more than 7 days gets dropped off from t
 | ✅ opp.minuspoint.com | No | 0.4.59 |
 | ✅ origin.social | No | 0.4.59 |
 | ✅ otasora.blue | No | 0.4.59 |
-| ✅ oyster.us-east.host.bsky.network | No | git-b298bfd |
 | ✅ p.kojira.io | No | 0.4.59 |
 | ✅ pdeeznuts.amith.sbs | No | 0.4.59 |
 | ❌ pds-test.rjbasitali.com | No | ??? |
@@ -464,11 +483,9 @@ Instances that have not been active for more than 7 days gets dropped off from t
 | ❌ pixamochi.com | No | ??? |
 | ✅ polarfox.app | No | 0.4.59 |
 | ❌ polarr.online | No | ??? |
-| ✅ porcini.us-east.host.bsky.network | No | git-b298bfd |
 | ✅ prevter.me | No | 0.4.59 |
 | ✅ proto.sorcie.re | No | 0.4.59 |
 | ❌ pstr.space | No | 0.4.59 |
-| ✅ puffball.us-east.host.bsky.network | No | git-b298bfd |
 | ✅ qbluepkrsm.xsns.jp | No | 0.4.59 |
 | ❌ qpomelo.dev | No | ??? |
 | ✅ quilt.com.tw | No | 0.4.59 |
@@ -480,12 +497,8 @@ Instances that have not been active for more than 7 days gets dropped off from t
 | ✅ rofl.im | No | 0.4.59 |
 | ✅ rows.io | No | 0.4.59 |
 | ❌ rulestheworld.co.uk | No | 0.4.59 |
-| ✅ russula.us-west.host.bsky.network | No | git-b298bfd |
 | ✅ salty.house | No | 0.4.59 |
 | ✅ sd.mk | No | 0.4.59 |
-| ✅ shaggymane.us-west.host.bsky.network | No | git-bcefbdb |
-| ✅ shiitake.us-east.host.bsky.network | No | git-b298bfd |
-| ✅ shimeji.us-east.host.bsky.network | No | git-b298bfd |
 | ✅ shirorengekyou.isakkr.net.eu.org | No | 0.4.59 |
 | ❌ shoebottom.ca | No | ??? |
 | ✅ si.lly.social | No | 0.4.59 |
@@ -521,7 +534,6 @@ Instances that have not been active for more than 7 days gets dropped off from t
 | ✅ spectrumsaas.com | No | 0.4.59 |
 | ✅ stack.party | No | 0.4.0-beta.7 |
 | ✅ stinkhorn.jacob.gold | No | 0.4.59 |
-| ✅ stinkhorn.us-west.host.bsky.network | No | git-bcefbdb |
 | ✅ sunaba.io | No | 0.4.59 |
 | ✅ sxi.dk | No | 0.4.59 |
 | ❌ system32.moe | No | ??? |
@@ -550,7 +562,6 @@ Instances that have not been active for more than 7 days gets dropped off from t
 | ✅ v9v.net | No | 0.4.59 |
 | ✅ vasco.social | No | 0.4.59 |
 | ✅ vengeful.eu | No | 0.4.59 |
-| ✅ verpa.us-west.host.bsky.network | No | git-b298bfd |
 | ✅ violets-purgatory.dev | No | 0.4.59 |
 | ✅ vtb.yt | Yes | 0.4.59 |
 | ✅ vtube.space | No | 0.4.59 |
@@ -559,8 +570,6 @@ Instances that have not been active for more than 7 days gets dropped off from t
 | ✅ warmsushi.com | No | 0.4.59 |
 | ✅ weeb.jp | No | 0.4.59 |
 | ✅ wilford.industries | No | 0.4.59 |
-| ✅ witchesbutter.us-west.host.bsky.network | No | git-bcefbdb |
-| ✅ woodear.us-west.host.bsky.network | No | git-bcefbdb |
 | ✅ wordsky.xyz | No | 0.4.59 |
 | ✅ www.magickuma.uk | No | 0.4.59 |
 | ✅ x.wh64.net | No | 0.4.59 |
@@ -573,7 +582,7 @@ Instances that have not been active for more than 7 days gets dropped off from t
 | ✅ zazen.social | No | 0.4.59 |
 | ✅ zeah.online | No | 0.4.59 |
 | ✅ zio.blue | No | 0.4.59 |
-<!-- pds-end -->
+<!-- 3p-pds-end -->
 
 ## Labelers
 
