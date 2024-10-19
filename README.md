@@ -1,6 +1,6 @@
 # Scraped AT Protocol instances
 
-Last updated: 2024-10-19T07:35:36.133Z[^1]
+Last updated: 2024-10-19T07:40:54.665Z[^1]
 
 Found by enumerating plc.directory and bsky.network, some instances might not be
 part of mainnet.
@@ -598,6 +598,7 @@ Instances that have not been active for more than 7 days gets dropped off from t
 | ✅ mod-br.bsky.app | git-60df3fc |
 | ✅ mod-de.bsky.app | git-60df3fc |
 | ✅ mod.bsky.app | git-60df3fc |
+| ✅ mod.staging.bsky.dev | git-60df3fc |
 <!-- bsky-labeler-end -->
 
 ### Third-party labelers
@@ -635,7 +636,6 @@ Instances that have not been active for more than 7 days gets dropped off from t
 | ✅ mod.armifi.com | 0.1.38 |
 | ✅ mod.blackskyweb.xyz | 0.1.38 |
 | ✅ mod.laelaps.fyi | 0.1.38 |
-| ✅ mod.staging.bsky.dev | git-60df3fc |
 | ❌ mod.zio.blue | ??? |
 | ✅ ozone.anon5r.com | 0.1.42 |
 | ✅ ozone.asukafield.xyz | 0.1.38 |

@@ -98,7 +98,7 @@ Instances that have not been active for more than 7 days gets dropped off from t
 		const v = version || (version === null ? 'N/A' : '???');
 		const invites = inviteCodeRequired === false ? 'Yes' : 'No';
 
-		if (host === 'bsky.social' || host.endsWith('.host.bsky.network')) {
+		if (isBlueskyHost(host)) {
 			pdsBskyTable += `| ${on} ${host} | ${invites} | ${v} |\n`;
 		} else {
 			pds3pTable += `| ${on} ${host} | ${invites} | ${v} |\n`;
@@ -113,7 +113,7 @@ Instances that have not been active for more than 7 days gets dropped off from t
 		const on = errorAt === undefined ? '✅' : '❌';
 		const v = version || (version === null ? 'N/A' : '???');
 
-		if (host.endsWith('.bsky.app')) {
+		if (isBlueskyHost(host)) {
 			labelerBskyTable += `| ${on} ${host} | ${v} |\n`;
 		} else {
 			labeler3pTable += `| ${on} ${host} | ${v} |\n`;
@@ -178,7 +178,7 @@ Instances that have not been active for more than 7 days gets dropped off from t
 				offlineCount++;
 			}
 
-			if (host.endsWith('.host.bsky.network')) {
+			if (isBlueskyHost(host)) {
 				blueskyHostedCount++;
 			} else {
 				nonBlueskyHostedCount++;
@@ -216,5 +216,9 @@ Instances that have not been active for more than 7 days gets dropped off from t
 			`**${onlineCount}** online  \n` +
 			`**${offlineCount}** offline`
 		);
+	}
+
+	function isBlueskyHost(host: string): boolean {
+		return /(?:^|\.)(?:bsky\.network|bsky\.app|bsky\.dev|bsky\.social)$/.test(host);
 	}
 }
