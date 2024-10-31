@@ -216,10 +216,11 @@ async function getVersion(rpc: XRPC, prev: string | null | undefined) {
 
 		return /^[0-9a-f]{40}$/.test(version) ? `git-${version.slice(0, 7)}` : version;
 	} catch (err) {
-		if (err instanceof XRPCError && err.status !== 404) {
-			return undefined;
+		if (err instanceof XRPCError && (err.status === 404 || err.status === 501)) {
+			// Not implemented.
+			return null;
 		}
 	}
 
-	return null;
+	return undefined;
 }
