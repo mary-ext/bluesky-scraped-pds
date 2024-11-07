@@ -16,7 +16,6 @@ import {
 
 import { MAX_FAILURE_DAYS, PLC_URL, RELAY_URL } from '../src/constants';
 import { didDocument, type DidDocument } from '../src/utils/did';
-import { compareString } from '../src/utils/misc';
 import { PromiseQueue } from '../src/utils/pqueue';
 import { LineBreakStream, TextDecoderStream } from '../src/utils/stream';
 
