@@ -4,7 +4,7 @@ export class PromiseQueue {
 	#max: number;
 	#current = 0;
 
-	constructor({ max = 50 }: { max?: number } = {}) {
+	constructor({ max = 16 }: { max?: number } = {}) {
 		this.#max = max;
 	}
 
