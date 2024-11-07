@@ -219,6 +219,14 @@ let firehoseCursor: string | undefined = state?.firehose.cursor;
 					const signal = AbortSignal.timeout(15_000);
 					const res = await get(`https://${host}/.well-known/did.json`, signal);
 
+					const contentType = res.headers.get('content-type');
+					if (!contentType) {
+						throw new Error(`missing content type`);
+					}
+					if (!contentType.includes('application/json')) {
+						throw new Error(`incorrect content-type; got ${contentType}`);
+					}
+
 					const text = await res.text();
 					const sha256sum = getHash('sha256', text);
 
