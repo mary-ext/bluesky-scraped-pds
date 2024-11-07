@@ -3,7 +3,7 @@ import * as v from '@badrap/valita';
 
 import { differenceInDays } from 'date-fns/differenceInDays';
 
-import { MAX_FAILURE_DAYS } from '../src/constants';
+import { DEFAULT_HEADERS, MAX_FAILURE_DAYS } from '../src/constants';
 import { serializedState, type LabelerInfo, type PDSInfo, type SerializedState } from '../src/state';
 
 import { PromiseQueue } from '../src/utils/pqueue';
@@ -77,7 +77,7 @@ await Promise.all(
 
 			const signal = AbortSignal.timeout(15_000);
 			const meta = await rpc
-				.get('com.atproto.server.describeServer', { signal })
+				.get('com.atproto.server.describeServer', { signal, headers: DEFAULT_HEADERS })
 				.then(({ data: rawData }) => {
 					const data = pdsDescribeServerResponse.parse(rawData, { mode: 'passthrough' });
 
@@ -128,7 +128,11 @@ await Promise.all(
 
 			const signal = AbortSignal.timeout(15_000);
 			const meta = await rpc
-				.get('com.atproto.label.queryLabels', { signal: signal, params: { uriPatterns: ['*'], limit: 1 } })
+				.get('com.atproto.label.queryLabels', {
+					signal: signal,
+					headers: DEFAULT_HEADERS,
+					params: { uriPatterns: ['*'], limit: 1 },
+				})
 				.then(({ data: rawData }) => labelerQueryLabelsResponse.parse(rawData, { mode: 'passthrough' }))
 				.catch(() => null);
 
@@ -211,7 +215,7 @@ async function getVersion(rpc: XRPC, prev: string | null | undefined) {
 
 	try {
 		// @ts-expect-error: undocumented endpoint
-		const { data: rawData } = await rpc.get('_health', {});
+		const { data: rawData } = await rpc.get('_health', { headers: DEFAULT_HEADERS });
 		const { version } = offHealthResponse.parse(rawData, { mode: 'passthrough' });
 
 		return /^[0-9a-f]{40}$/.test(version) ? `git-${version.slice(0, 7)}` : version;

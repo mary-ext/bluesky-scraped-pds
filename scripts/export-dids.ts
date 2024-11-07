@@ -14,7 +14,7 @@ import {
 	type SerializedState,
 } from '../src/state';
 
-import { MAX_FAILURE_DAYS, PLC_URL, RELAY_URL } from '../src/constants';
+import { DEFAULT_HEADERS, MAX_FAILURE_DAYS, PLC_URL, RELAY_URL } from '../src/constants';
 import { didDocument, type DidDocument } from '../src/utils/did';
 import { PromiseQueue } from '../src/utils/pqueue';
 import { LineBreakStream, TextDecoderStream } from '../src/utils/stream';
@@ -177,6 +177,7 @@ let firehoseCursor: string | undefined = state?.firehose.cursor;
 
 	do {
 		const { data } = await rpc.get('com.atproto.sync.listRepos', {
+			headers: DEFAULT_HEADERS,
 			params: {
 				cursor: cursor,
 				limit: 1_000,
@@ -314,7 +315,7 @@ let firehoseCursor: string | undefined = state?.firehose.cursor;
 }
 
 async function get(url: string, signal?: AbortSignal): Promise<Response> {
-	const response = await fetch(url, { signal });
+	const response = await fetch(url, { signal, headers: DEFAULT_HEADERS });
 
 	if (response.status === 429) {
 		const delay = 90_000;
