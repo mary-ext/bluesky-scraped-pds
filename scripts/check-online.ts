@@ -75,6 +75,8 @@ await Promise.all(
 			const host = new URL(href).host;
 			const rpc = new XRPC({ handler: simpleFetchHandler({ service: href }) });
 
+			const start = performance.now();
+
 			const signal = AbortSignal.timeout(15_000);
 			const meta = await rpc
 				.get('com.atproto.server.describeServer', { signal, headers: DEFAULT_HEADERS })
@@ -89,6 +91,8 @@ await Promise.all(
 				})
 				.catch(() => null);
 
+			const end = performance.now();
+
 			if (meta === null) {
 				const errorAt = obj.errorAt;
 
@@ -101,7 +105,7 @@ await Promise.all(
 					return;
 				}
 
-				console.log(`  ${host}: fail`);
+				console.log(`  ${host}: fail (took ${end - start})`);
 				return { host, info: obj };
 			}
 
@@ -111,7 +115,7 @@ await Promise.all(
 			obj.inviteCodeRequired = meta.inviteCodeRequired;
 			obj.errorAt = undefined;
 
-			console.log(`  ${host}: pass`);
+			console.log(`  ${host}: pass (took ${end - start})`);
 			return { host, info: obj };
 		});
 	}),
@@ -126,6 +130,8 @@ await Promise.all(
 			const host = new URL(href).host;
 			const rpc = new XRPC({ handler: simpleFetchHandler({ service: href }) });
 
+			const start = performance.now();
+
 			const signal = AbortSignal.timeout(15_000);
 			const meta = await rpc
 				.get('com.atproto.label.queryLabels', {
@@ -135,6 +141,8 @@ await Promise.all(
 				})
 				.then(({ data: rawData }) => labelerQueryLabelsResponse.parse(rawData, { mode: 'passthrough' }))
 				.catch(() => null);
+
+			const end = performance.now();
 
 			if (meta === null) {
 				const errorAt = obj.errorAt;
@@ -148,7 +156,7 @@ await Promise.all(
 					return;
 				}
 
-				console.log(`  ${host}: fail`);
+				console.log(`  ${host}: fail (took ${end - start})`);
 				return { host, info: obj };
 			}
 
@@ -157,7 +165,7 @@ await Promise.all(
 			obj.version = version;
 			obj.errorAt = undefined;
 
-			console.log(`  ${host}: pass`);
+			console.log(`  ${host}: pass (took ${end - start})`);
 			return { host, info: obj };
 		});
 	}),
