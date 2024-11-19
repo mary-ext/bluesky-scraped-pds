@@ -95,7 +95,7 @@ Instances that have not been active for more than 7 days gets dropped off from t
 		const { errorAt, inviteCodeRequired, version } = info;
 
 		const on = errorAt === undefined ? '✅' : '❌';
-		const v = version || (version === null ? 'N/A' : '???');
+		const v = version ? heavilySanitize(version) : version === null ? 'N/A' : '???';
 		const invites = inviteCodeRequired === false ? 'Yes' : 'No';
 
 		if (isBlueskyHost(host)) {
@@ -111,7 +111,7 @@ Instances that have not been active for more than 7 days gets dropped off from t
 		const { errorAt, version } = info;
 
 		const on = errorAt === undefined ? '✅' : '❌';
-		const v = version || (version === null ? 'N/A' : '???');
+		const v = version ? heavilySanitize(version) : version === null ? 'N/A' : '???';
 
 		if (isBlueskyHost(host)) {
 			labelerBskyTable += `| ${on} ${host} | ${v} |\n`;
@@ -220,5 +220,9 @@ Instances that have not been active for more than 7 days gets dropped off from t
 
 	function isBlueskyHost(host: string): boolean {
 		return /(?:^|\.)(?:bsky\.network|bsky\.app|bsky\.dev|bsky\.social)$/.test(host);
+	}
+
+	function heavilySanitize(str: string): string {
+		return str.replace(/([\\`*_{}\[\]()#+!])/g, '\\$1');
 	}
 }
