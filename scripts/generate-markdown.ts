@@ -95,7 +95,7 @@ Instances that have not been active for more than 7 days gets dropped off from t
 		const { errorAt, inviteCodeRequired, version } = info;
 
 		const on = errorAt === undefined ? '✅' : '❌';
-		const v = version ? heavilySanitize(version) : version === null ? 'N/A' : '???';
+		const v = version ? sanitize(version) : version === null ? 'N/A' : '???';
 		const invites = inviteCodeRequired === false ? 'Yes' : 'No';
 
 		if (isBlueskyHost(host)) {
@@ -111,7 +111,7 @@ Instances that have not been active for more than 7 days gets dropped off from t
 		const { errorAt, version } = info;
 
 		const on = errorAt === undefined ? '✅' : '❌';
-		const v = version ? heavilySanitize(version) : version === null ? 'N/A' : '???';
+		const v = version ? sanitize(version) : version === null ? 'N/A' : '???';
 
 		if (isBlueskyHost(host)) {
 			labelerBskyTable += `| ${on} ${host} | ${v} |\n`;
@@ -222,7 +222,7 @@ Instances that have not been active for more than 7 days gets dropped off from t
 		return /(?:^|\.)(?:bsky\.network|bsky\.app|bsky\.dev|bsky\.social)$/.test(host);
 	}
 
-	function heavilySanitize(str: string): string {
-		return str.replace(/([\\`*_{}\[\]()#+!])/g, '\\$1');
+	function sanitize(str: string): string {
+		return str.replace(/[^ a-zA-Z0-9-_=+.,:;!`'"<>()\[\]/\\]/g, '').replace(/([<\\\[!`]|(?<=\s)[_])/g, '\\$1');
 	}
 }
