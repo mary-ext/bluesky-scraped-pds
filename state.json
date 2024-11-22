@@ -1,6 +1,8 @@
 {
 	"firehose": {
+		"cursor": "14891103",
 		"didWebs": {
+			"did:web:malpercio.dev": {},
 			"did:web:baub.au": {
 				"hash": "Fa0qh-fXj6FcIBQpTtBkxfdjr8ZVmaegqC6csNJwuMo",
 				"pds": "https://pds.atproto.hugeblank.dev/"
