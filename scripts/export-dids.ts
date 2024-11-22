@@ -171,6 +171,7 @@ let firehoseCursor: string | undefined = state?.firehose.cursor;
 	const rpc = new XRPC({ handler: simpleFetchHandler({ service: RELAY_URL }) });
 
 	let cursor: string | undefined = firehoseCursor;
+	let throttled = false;
 
 	console.log(`crawling bsky.network`);
 	console.log(`  starting ${cursor || '<root>'}`);
@@ -198,6 +199,13 @@ let firehoseCursor: string | undefined = state?.firehose.cursor;
 
 		if (cursor) {
 			firehoseCursor = cursor;
+		}
+
+		if (!throttled) {
+			throttled = true;
+			setTimeout(() => (throttled = false), 60_000).unref();
+
+			console.log(`  at ${cursor || '<root>'}`);
 		}
 	} while (cursor !== undefined);
 
