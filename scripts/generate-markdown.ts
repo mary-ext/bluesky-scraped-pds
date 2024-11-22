@@ -35,7 +35,7 @@ Last updated: {{time}}[^1]
 Found by enumerating plc.directory and bsky.network, some instances might not be
 part of mainnet.
 
-Instances that have not been active for more than 7 days gets dropped off from this list.
+Instances that have not been active for more than 14 days gets dropped off from this list.
 
 ## Personal data servers
 
@@ -223,6 +223,8 @@ Instances that have not been active for more than 7 days gets dropped off from t
 	}
 
 	function sanitize(str: string): string {
-		return str.replace(/[^ a-zA-Z0-9-_=+.,:;!`'"<>()\[\]/\\]/g, '').replace(/([<\\\[!`]|(?<=\s)[_])/g, '\\$1');
+		return str
+			.replace(/[^ a-zA-Z0-9-_=+.,:;!`'"<>()\[\]/\\]/g, '')
+			.replace(/([<\\\[!`]|(?<=\s)[_])/g, '\\$1');
 	}
 }
