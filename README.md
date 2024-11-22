@@ -1,6 +1,6 @@
 # Scraped AT Protocol instances
 
-Last updated: 2024-11-22T03:52:31.277Z[^1]
+Last updated: 2024-11-22T04:20:59.552Z[^1]
 
 Found by enumerating plc.directory and bsky.network, some instances might not be
 part of mainnet.
@@ -9,11 +9,11 @@ Instances that have not been active for more than 14 days gets dropped off from 
 
 ## Personal data servers
 
-**1965** instances active  
-**1534** online  
-**431** offline  
-**50** hosted by Bluesky  
-**1915** hosted by third-parties
+**1969** instances active  
+**1542** online  
+**427** offline  
+**49** hosted by Bluesky  
+**1920** hosted by third-parties
 
 ### Bluesky-hosted servers
 
@@ -26,8 +26,6 @@ Instances that have not been active for more than 14 days gets dropped off from 
 | ✅ blusher.us-east.host.bsky.network | No | git-90399c8 |
 | ✅ boletus.us-west.host.bsky.network | No | git-90399c8 |
 | ✅ bracket.us-west.host.bsky.network | No | git-90399c8 |
-| ❌ bsky.network | No | ??? |
-| ✅ bsky.social | Yes | git-7edd51a |
 | ✅ button.us-west.host.bsky.network | No | git-90399c8 |
 | ✅ chaga.us-west.host.bsky.network | No | git-90399c8 |
 | ✅ chanterelle.us-west.host.bsky.network | No | git-90399c8 |
@@ -105,6 +103,7 @@ Instances that have not been active for more than 14 days gets dropped off from 
 | ✅ 666.fail | No | 0.4.67 |
 | ✅ 71-38-127-202.lsv2.qwest.net | No | \!\[0.4.59](https://server.owo69.me/123969361_p0.jpg) |
 | ❌ 7c.gg | No | 0.4.67 |
+| ✅ 8bitwizard.social | No | 0.4.67 |
 | ✅ 8kviewer.com | No | 0.4.67 |
 | ✅ a.silvasky.com | No | 0.4.67 |
 | ❌ a0.wtf | No | ??? |
@@ -290,6 +289,7 @@ Instances that have not been active for more than 14 days gets dropped off from 
 | ✅ bluesky.bryantserver.com | No | 0.4.67 |
 | ✅ bluesky.bulwarkob.com | No | 0.4.67 |
 | ✅ bluesky.busana.lu | No | 0.4.67 |
+| ✅ bluesky.caceyjones.com | No | 0.4.67 |
 | ✅ bluesky.carterpape.com | No | 0.4.67 |
 | ❌ bluesky.casa.momberg.me | No | ??? |
 | ✅ bluesky.chillandplay.space | No | 0.4.67 |
@@ -325,7 +325,7 @@ Instances that have not been active for more than 14 days gets dropped off from 
 | ❌ bluesky.guillai.me | No | 0.4.67 |
 | ✅ bluesky.gyozaguy.com | No | 0.4.67 |
 | ❌ bluesky.hachihalation.duckdns.org | No | ??? |
-| ✅ bluesky.haojia-wu.com | No | 0.4.67 |
+| ❌ bluesky.haojia-wu.com | No | 0.4.67 |
 | ❌ bluesky.hectictunes.com | No | ??? |
 | ✅ bluesky.hiphopsmurf.com | No | 0.4.67 |
 | ✅ bluesky.hka-cloud.de | No | 0.4.67 |
@@ -470,7 +470,7 @@ Instances that have not been active for more than 14 days gets dropped off from 
 | ✅ bs.idiocy.org | No | 0.4.67 |
 | ✅ bs.iz5wga.radio | No | 0.4.67 |
 | ✅ bs.jayporeonnas.com | No | 0.4.67 |
-| ❌ bs.jpu.jp | No | 0.4.67 |
+| ✅ bs.jpu.jp | No | 0.4.67 |
 | ✅ bs.kelbie.scot | No | 0.4.67 |
 | ✅ bs.lehtiin.eu | No | 0.4.67 |
 | ✅ bs.lyqgzbl.com | No | 0.4.67 |
@@ -620,7 +620,7 @@ Instances that have not been active for more than 14 days gets dropped off from 
 | ✅ bsky.gestur.org | No | 0.4.67 |
 | ✅ bsky.gib.cool | No | 0.4.67 |
 | ✅ bsky.giurgiu.io | No | 0.4.59 |
-| ❌ bsky.gizm0.dev | No | 0.4.67 |
+| ✅ bsky.gizm0.dev | No | 0.4.67 |
 | ✅ bsky.goon.army | No | 0.4.67 |
 | ❌ bsky.grimm.tech | No | ??? |
 | ✅ bsky.gsheps.net | No | 0.4.67 |
@@ -731,6 +731,7 @@ Instances that have not been active for more than 14 days gets dropped off from 
 | ✅ bsky.nzxl.space | No | 0.4.67 |
 | ✅ bsky.ocelot.lol | No | 0.4.67 |
 | ✅ bsky.ogre-man.com | No | 0.4.67 |
+| ✅ bsky.on-a-ps4.lol | No | 0.4.72 |
 | ❌ bsky.onyx-logic.com | No | 0.4.67 |
 | ❌ bsky.owlcast.org | No | ??? |
 | ✅ bsky.paradoxx.dev | No | 0.4.67 |
@@ -802,7 +803,7 @@ Instances that have not been active for more than 14 days gets dropped off from 
 | ✅ bsky.taila5061.ts.net | No | 0.4.67 |
 | ✅ bsky.tallorder.ai | No | 0.4.67 |
 | ✅ bsky.tearow.com | No | 0.4.67 |
-| ❌ bsky.tessa.works | No | N/A |
+| ✅ bsky.tessa.works | No | N/A |
 | ✅ bsky.test.wafrn.net | No | 0.4.67 |
 | ✅ bsky.the-hive-mind.org | No | 0.4.67 |
 | ✅ bsky.the-wired.org | No | 0.4.67 |
@@ -1216,7 +1217,7 @@ Instances that have not been active for more than 14 days gets dropped off from 
 | ✅ maid.doll.gl | No | 0.4.67 |
 | ❌ makkusu.me | No | ??? |
 | ✅ malone.social | No | 0.4.67 |
-| ❌ manes.xyz | No | ??? |
+| ✅ manes.xyz | No | 0.4.67 |
 | ✅ maplestorymob.com | No | 0.4.67 |
 | ❌ marcks.me | No | 0.4.67 |
 | ❌ martinserver.no | No | 0.4.67 |
@@ -1278,7 +1279,7 @@ Instances that have not been active for more than 14 days gets dropped off from 
 | ✅ mytchh.com | No | 0.4.67 |
 | ✅ mythision.com | No | 0.4.67 |
 | ✅ myydraal.com | No | 0.4.67 |
-| ✅ n3rdsky.com | No | 0.4.67 |
+| ❌ n3rdsky.com | No | 0.4.67 |
 | ✅ naomie.digital | No | 0.4.67 |
 | ✅ narigstyx.hopto.org | No | 0.4.67 |
 | ❌ nathanklisch.com | No | 0.4.67 |
@@ -1353,7 +1354,7 @@ Instances that have not been active for more than 14 days gets dropped off from 
 | ✅ pds.a2.rip | No | 0.4.67 |
 | ✅ pds.adamwolf.org | No | 0.4.67 |
 | ✅ pds.afest.io | No | 0.4.67 |
-| ✅ pds.ajcool.space | No | 0.4.67 |
+| ❌ pds.ajcool.space | No | 0.4.67 |
 | ✅ pds.akigami.org | No | 0.4.67 |
 | ❌ pds.alexveebee.nl | No | 0.4.59 |
 | ✅ pds.andreslucero.com | No | 0.4.67 |
@@ -1364,7 +1365,7 @@ Instances that have not been active for more than 14 days gets dropped off from 
 | ✅ pds.aparker.io | No | 0.4.67 |
 | ❌ pds.apotheke.earth | No | 0.4.67 |
 | ✅ pds.ari.in.net | No | 0.4.67 |
-| ❌ pds.atproto.hugeblank.dev | No | 0.4.67 |
+| ✅ pds.atproto.hugeblank.dev | No | 0.4.67 |
 | ✅ pds.auk.life | No | 0.4.67 |
 | ✅ pds.autumn.soy | No | 0.4.67 |
 | ❌ pds.aviate.org | No | ??? |
@@ -1572,7 +1573,7 @@ Instances that have not been active for more than 14 days gets dropped off from 
 | ✅ pds.robocracy.org | No | 0.4.67 |
 | ✅ pds.roppongimfg.xyz | No | 0.4.67 |
 | ❌ pds.sam-solovy.com | No | 0.4.67 |
-| ❌ pds.seanreichel.com | No | 0.4.67 |
+| ✅ pds.seanreichel.com | No | 0.4.67 |
 | ❌ pds.shapecloud.net | No | ??? |
 | ✅ pds.shigepon.net | No | 0.4.67 |
 | ✅ pds.shivan.xyz | No | 0.4.67 |
@@ -1652,6 +1653,7 @@ Instances that have not been active for more than 14 days gets dropped off from 
 | ✅ pipebomb.cc | No | 0.4.67 |
 | ❌ pixlbit.cloud | No | ??? |
 | ✅ planetary.defense.system.functional.technology | No | 0.4.67 |
+| ✅ plutus.tylerwhitney.com | No | 0.4.67 |
 | ✅ poehls.at | No | 0.4.67 |
 | ✅ polarfox.app | No | 0.4.67 |
 | ✅ polyneme-pds.com | No | 0.4.67 |
@@ -1693,7 +1695,7 @@ Instances that have not been active for more than 14 days gets dropped off from 
 | ✅ reph.xyz | No | 0.4.67 |
 | ✅ rever.si | No | 0.4.67 |
 | ✅ rfr12.xyz | No | 0.4.67 |
-| ✅ richit.ninja | No | 0.4.67 |
+| ❌ richit.ninja | No | 0.4.67 |
 | ✅ rmb-up.top | No | 0.4.67 |
 | ❌ rmrz.ph | No | ??? |
 | ✅ robertosau.re | No | 0.4.67 |
@@ -1799,7 +1801,7 @@ Instances that have not been active for more than 14 days gets dropped off from 
 | ❌ social.geoffreyconley.xyz | No | 0.4.67 |
 | ✅ social.gmg.io | No | 0.4.67 |
 | ✅ social.halecarter.com | No | 0.4.67 |
-| ❌ social.kemonos.net | No | 0.4.67 |
+| ✅ social.kemonos.net | No | 0.4.67 |
 | ✅ social.michael-lloyd-lee.me.uk | No | 0.4.67 |
 | ✅ social.obc.one | No | 0.4.67 |
 | ✅ social.optize.net | Yes | 0.4.67 |
@@ -1815,6 +1817,7 @@ Instances that have not been active for more than 14 days gets dropped off from 
 | ✅ social.thoughtlabs.co.nz | No | 0.4.67 |
 | ❌ social.tophhie.cloud | No | ??? |
 | ❌ social.tycel.me | No | 0.4.67 |
+| ✅ social.wienert.me | No | 0.4.67 |
 | ✅ social.zaccary.me | No | 0.4.67 |
 | ❌ socialmedia.horace.seesea.site | No | 0.4.67 |
 | ✅ socl.is | No | 0.4.39 |
@@ -1997,9 +2000,9 @@ Instances that have not been active for more than 14 days gets dropped off from 
 
 ## Labelers
 
-**214** instances active  
-**131** online  
-**83** offline
+**212** instances active  
+**132** online  
+**80** offline
 
 ### Bluesky labelers
 
@@ -2007,8 +2010,6 @@ Instances that have not been active for more than 14 days gets dropped off from 
 | Labeler | Version |
 | --- | --- |
 | ❌ bsky.social | ??? |
-| ❌ jetstream1.us-east.bsky.network | ??? |
-| ❌ jetstream1.us-west.bsky.network | ??? |
 | ✅ mod-br.bsky.app | git-bac9be2 |
 | ✅ mod-de.bsky.app | git-bac9be2 |
 | ✅ mod.bsky.app | git-48d08a4 |
@@ -2100,7 +2101,7 @@ Instances that have not been active for more than 14 days gets dropped off from 
 | ✅ labeler.zomrade.live | N/A |
 | ❌ labelertesting-backend.bsky.sh | ??? |
 | ✅ labeling.newsdetective.org | 0.1.38 |
-| ❌ labeller.directioners.social | N/A |
+| ✅ labeller.directioners.social | N/A |
 | ✅ labels.heartscraps.xyz | N/A |
 | ✅ labels.medsky.social | N/A |
 | ✅ labels.roblox.social | N/A |

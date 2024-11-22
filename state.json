@@ -1,6 +1,6 @@
 {
 	"firehose": {
-		"cursor": "21857056",
+		"cursor": "21864091",
 		"didWebs": {
 			"did:web:baub.au": {
 				"hash": "Fa0qh-fXj6FcIBQpTtBkxfdjr8ZVmaegqC6csNJwuMo",
@@ -490,7 +490,6 @@
 		},
 		"https://labeller.directioners.social/": {
 			"did": "did:plc:xje4wfji5zjiwgrhwpc3itv2",
-			"errorAt": 1732151830625,
 			"version": null
 		},
 		"https://labels.heartscraps.xyz/": {
@@ -1134,6 +1133,10 @@
 			"inviteCodeRequired": true,
 			"version": "0.4.67"
 		},
+		"https://8bitwizard.social/": {
+			"inviteCodeRequired": true,
+			"version": "0.4.67"
+		},
 		"https://8kviewer.com/": {
 			"inviteCodeRequired": true,
 			"version": "0.4.67"
@@ -1504,7 +1507,7 @@
 			"errorAt": 1731028180966
 		},
 		"https://atproto.brid.gy/": {
-			"errorAt": 1732246709198
+			"errorAt": 1732248413959
 		},
 		"https://atproto.digitalmethods.net/": {
 			"inviteCodeRequired": true,
@@ -1871,6 +1874,10 @@
 			"inviteCodeRequired": true,
 			"version": "0.4.67"
 		},
+		"https://bluesky.caceyjones.com/": {
+			"inviteCodeRequired": true,
+			"version": "0.4.67"
+		},
 		"https://bluesky.carterpape.com/": {
 			"inviteCodeRequired": true,
 			"version": "0.4.67"
@@ -2010,6 +2017,7 @@
 			"errorAt": 1731806551573
 		},
 		"https://bluesky.haojia-wu.com/": {
+			"errorAt": 1732248413959,
 			"inviteCodeRequired": true,
 			"version": "0.4.67"
 		},
@@ -2593,7 +2601,6 @@
 			"version": "0.4.67"
 		},
 		"https://bs.jpu.jp/": {
-			"errorAt": 1732246709198,
 			"inviteCodeRequired": true,
 			"version": "0.4.67"
 		},
@@ -3179,7 +3186,6 @@
 			"version": "0.4.59"
 		},
 		"https://bsky.gizm0.dev/": {
-			"errorAt": 1732246709198,
 			"inviteCodeRequired": true,
 			"version": "0.4.67"
 		},
@@ -3616,6 +3622,10 @@
 			"inviteCodeRequired": true,
 			"version": "0.4.67"
 		},
+		"https://bsky.on-a-ps4.lol/": {
+			"inviteCodeRequired": true,
+			"version": "0.4.72"
+		},
 		"https://bsky.onyx-logic.com/": {
 			"errorAt": 1732246709198,
 			"inviteCodeRequired": true,
@@ -3899,7 +3909,6 @@
 			"version": "0.4.67"
 		},
 		"https://bsky.tessa.works/": {
-			"errorAt": 1732246709198,
 			"inviteCodeRequired": true,
 			"version": null
 		},
@@ -5596,7 +5605,8 @@
 			"version": "0.4.67"
 		},
 		"https://manes.xyz/": {
-			"errorAt": 1732246709198
+			"inviteCodeRequired": true,
+			"version": "0.4.67"
 		},
 		"https://maplestorymob.com/": {
 			"inviteCodeRequired": true,
@@ -5860,6 +5870,7 @@
 			"version": "0.4.67"
 		},
 		"https://n3rdsky.com/": {
+			"errorAt": 1732248413959,
 			"inviteCodeRequired": true,
 			"version": "0.4.67"
 		},
@@ -6169,6 +6180,7 @@
 			"version": "0.4.67"
 		},
 		"https://pds.ajcool.space/": {
+			"errorAt": 1732248413959,
 			"inviteCodeRequired": true,
 			"version": "0.4.67"
 		},
@@ -6214,7 +6226,6 @@
 			"version": "0.4.67"
 		},
 		"https://pds.atproto.hugeblank.dev/": {
-			"errorAt": 1732246709198,
 			"inviteCodeRequired": true,
 			"version": "0.4.67"
 		},
@@ -7040,7 +7051,6 @@
 			"version": "0.4.67"
 		},
 		"https://pds.seanreichel.com/": {
-			"errorAt": 1732246709198,
 			"inviteCodeRequired": true,
 			"version": "0.4.67"
 		},
@@ -7351,6 +7361,10 @@
 			"inviteCodeRequired": true,
 			"version": "0.4.67"
 		},
+		"https://plutus.tylerwhitney.com/": {
+			"inviteCodeRequired": true,
+			"version": "0.4.67"
+		},
 		"https://poehls.at/": {
 			"inviteCodeRequired": true,
 			"version": "0.4.67"
@@ -7527,6 +7541,7 @@
 			"version": "0.4.67"
 		},
 		"https://richit.ninja/": {
+			"errorAt": 1732248413959,
 			"inviteCodeRequired": true,
 			"version": "0.4.67"
 		},
@@ -7964,7 +7979,6 @@
 			"version": "0.4.67"
 		},
 		"https://social.kemonos.net/": {
-			"errorAt": 1731633586815,
 			"inviteCodeRequired": true,
 			"version": "0.4.67"
 		},
@@ -8022,6 +8036,10 @@
 		},
 		"https://social.tycel.me/": {
 			"errorAt": 1731201232042,
+			"inviteCodeRequired": true,
+			"version": "0.4.67"
+		},
+		"https://social.wienert.me/": {
 			"inviteCodeRequired": true,
 			"version": "0.4.67"
 		},
@@ -8759,6 +8777,6 @@
 		}
 	},
 	"plc": {
-		"cursor": "2024-11-22T02:59:16.750Z"
+		"cursor": "2024-11-22T04:06:50.968Z"
 	}
 }
