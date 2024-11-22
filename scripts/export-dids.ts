@@ -14,7 +14,7 @@ import {
 	type SerializedState,
 } from '../src/state';
 
-import { DEFAULT_HEADERS, MAX_FAILURE_DAYS, PLC_URL, RELAY_URL } from '../src/constants';
+import { DEFAULT_HEADERS, EXCLUSIONS_RE, MAX_FAILURE_DAYS, PLC_URL, RELAY_URL } from '../src/constants';
 import { didDocument, type DidDocument } from '../src/utils/did';
 import { PromiseQueue } from '../src/utils/pqueue';
 import { LineBreakStream, TextDecoderStream } from '../src/utils/stream';
@@ -74,7 +74,12 @@ let firehoseCursor: string | undefined = state?.firehose.cursor;
 				const pds = getEndpoint(operation.services.atproto_pds?.endpoint);
 				const labeler = getEndpoint(operation.services.atproto_labeler?.endpoint);
 
-				if (pds) {
+				jump: if (pds) {
+					if (EXCLUSIONS_RE.test(pds)) {
+						console.log(`  found excluded pds: ${pds}`);
+						break jump;
+					}
+
 					const info = pdses.get(pds);
 
 					if (info === undefined) {
@@ -87,7 +92,12 @@ let firehoseCursor: string | undefined = state?.firehose.cursor;
 					}
 				}
 
-				if (labeler) {
+				jump: if (labeler) {
+					if (EXCLUSIONS_RE.test(labeler)) {
+						console.log(`  found excluded labeler: ${labeler}`);
+						break jump;
+					}
+
 					const info = labelers.get(labeler);
 
 					if (info === undefined) {
@@ -247,7 +257,12 @@ let firehoseCursor: string | undefined = state?.firehose.cursor;
 
 						console.log(`  ${did}: pass (updated)`);
 
-						if (pds) {
+						jump: if (pds) {
+							if (EXCLUSIONS_RE.test(pds)) {
+								console.log(`  found excluded pds: ${pds}`);
+								break jump;
+							}
+
 							const info = pdses.get(pds);
 
 							if (info === undefined) {
@@ -260,7 +275,12 @@ let firehoseCursor: string | undefined = state?.firehose.cursor;
 							}
 						}
 
-						if (labeler) {
+						jump: if (labeler) {
+							if (EXCLUSIONS_RE.test(labeler)) {
+								console.log(`  found excluded labeler: ${labeler}`);
+								break jump;
+							}
+
 							const info = labelers.get(labeler);
 
 							if (info === undefined) {

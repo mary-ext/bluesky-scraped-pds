@@ -401,14 +401,6 @@
 			"did": "did:plc:skibpmllbhxvbvwgtjxl3uao",
 			"version": "0.1.38"
 		},
-		"https://jetstream1.us-east.bsky.network/": {
-			"did": "did:plc:3hzvshto76gqe5up6gvs7fwq",
-			"errorAt": 1731892814312
-		},
-		"https://jetstream1.us-west.bsky.network/": {
-			"did": "did:plc:4j6e6lhmrjsihjtshsuh3chk",
-			"errorAt": 1731719983905
-		},
 		"https://jntestlabeler.jamienemeth.co.uk/": {
 			"did": "did:plc:x7d5qy5kmr34qd4w7ji4cbr4",
 			"version": null
@@ -3570,9 +3562,6 @@
 			"inviteCodeRequired": true,
 			"version": "0.4.67"
 		},
-		"https://bsky.network/": {
-			"errorAt": 1732246709198
-		},
 		"https://bsky.newhimazin.net/": {
 			"errorAt": 1731806551573
 		},
@@ -3859,10 +3848,6 @@
 		"https://bsky.sneezey.uk/": {
 			"inviteCodeRequired": true,
 			"version": "0.4.67"
-		},
-		"https://bsky.social/": {
-			"inviteCodeRequired": false,
-			"version": "git-7edd51a"
 		},
 		"https://bsky.soopy.moe/": {
 			"inviteCodeRequired": true,
