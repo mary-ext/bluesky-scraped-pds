@@ -207,9 +207,15 @@ let firehoseCursor: number | undefined = state?.firehose.cursor;
 			const did = data.did;
 
 			if (did.startsWith('did:web:')) {
-				if (!didWebs.has(did)) {
+				const info = didWebs.get(did);
+
+				if (info === undefined) {
 					console.log(`  found ${did}`);
 					didWebs.set(did, {});
+				} else if (info.errorAt !== undefined) {
+					// reset `errorAt` if we encounter this did:web
+					console.log(`  found ${did} (errored)`);
+					info.errorAt = undefined;
 				}
 			}
 		}
