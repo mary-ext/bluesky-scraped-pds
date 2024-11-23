@@ -7,10 +7,15 @@ export const createWebSocketStream = <T = any>(url: string | URL) => {
 			ws = new WebSocket(url);
 			closed = false;
 
-			ws.onclose = () => {
+			ws.onclose = (ev) => {
 				if (!closed) {
 					closed = true;
-					controller.close();
+
+					if (ev.wasClean) {
+						controller.close();
+					} else {
+						controller.error(new Error(`websocket error ${ev.code}`));
+					}
 				}
 			};
 			ws.onmessage = (ev) => {
