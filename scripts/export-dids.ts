@@ -177,7 +177,8 @@ let firehoseCursor: number | undefined = state?.firehose.cursor;
 
 // Watch the relay to find any did:web identities
 {
-	let cursor: number | undefined = firehoseCursor ?? 0;
+	// run it 5 seconds back
+	let cursor: number | undefined = Math.max(0, (firehoseCursor ?? 0) - 5 * 1_000_000);
 	let throttled = false;
 
 	console.log(`listening to relay`);
