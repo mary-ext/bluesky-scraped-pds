@@ -13,7 +13,7 @@ const dateInt = v.number().chain((value) => {
 
 export const serializedState = v.object({
 	firehose: v.object({
-		cursor: v.string().optional(),
+		cursor: v.number().optional(),
 		didWebs: v.record(
 			v.object({
 				errorAt: dateInt.optional(),

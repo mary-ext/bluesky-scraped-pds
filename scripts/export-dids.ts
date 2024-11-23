@@ -1,7 +1,5 @@
 import crypto from 'node:crypto';
 
-import { simpleFetchHandler, XRPC } from '@atcute/client';
-
 import * as v from '@badrap/valita';
 import { differenceInDays } from 'date-fns/differenceInDays';
 import * as tld from 'tldts';
@@ -14,10 +12,11 @@ import {
 	type SerializedState,
 } from '../src/state';
 
-import { DEFAULT_HEADERS, EXCLUSIONS_RE, MAX_FAILURE_DAYS, PLC_URL, RELAY_URL } from '../src/constants';
+import { DEFAULT_HEADERS, EXCLUSIONS_RE, JETSTREAM_URL, MAX_FAILURE_DAYS, PLC_URL } from '../src/constants';
 import { didDocument, type DidDocument } from '../src/utils/did';
 import { PromiseQueue } from '../src/utils/pqueue';
 import { LineBreakStream, TextDecoderStream } from '../src/utils/stream';
+import { createWebSocketStream } from '../src/utils/websocket';
 
 const now = Date.now();
 
@@ -46,7 +45,7 @@ const labelers = new Map<string, LabelerInfo>(state ? Object.entries(state.label
 const queue = new PromiseQueue();
 
 let plcCursor: string | undefined = state?.plc.cursor;
-let firehoseCursor: string | undefined = state?.firehose.cursor;
+let firehoseCursor: number | undefined = state?.firehose.cursor;
 
 // Iterate through PLC events
 {
@@ -176,27 +175,37 @@ let firehoseCursor: string | undefined = state?.firehose.cursor;
 	}
 }
 
-// Iterate through firehose' known repositories
+// Watch the relay to find any did:web identities
 {
-	const rpc = new XRPC({ handler: simpleFetchHandler({ service: RELAY_URL }) });
-
-	let cursor: string | undefined = firehoseCursor;
+	let cursor: number | undefined = firehoseCursor ?? 0;
 	let throttled = false;
 
-	console.log(`crawling bsky.network`);
-	console.log(`  starting ${cursor || '<root>'}`);
+	console.log(`listening to relay`);
+	console.log(`  connecting to ${JETSTREAM_URL}`);
+	console.log(`  starting ${cursor || `<root>`}`);
 
-	do {
-		const { data } = await rpc.get('com.atproto.sync.listRepos', {
-			headers: DEFAULT_HEADERS,
-			params: {
-				cursor: cursor,
-				limit: 1_000,
-			},
-		});
+	const url = JETSTREAM_URL + `?cursor=${cursor}` + `&wantedCollections=invalid.nsid.record`;
 
-		// safeguard against the relay returning repos: null
-		for (const { did } of data.repos || []) {
+	for await (const data of createWebSocketStream<JetstreamEvent>(url)) {
+		if (data.time_us > cursor) {
+			cursor = data.time_us;
+		}
+
+		if (cursor / 1_000_000 > Date.now() / 1_000 - 3) {
+			break;
+		}
+
+		if (!throttled) {
+			throttled = true;
+			setTimeout(() => (throttled = false), 60_000).unref();
+
+			console.log(`  at ${new Date(cursor / 1_000).toISOString()}`);
+		}
+
+		const kind = data.kind;
+		if (kind === 'account' || kind === 'identity') {
+			const did = data.did;
+
 			if (did.startsWith('did:web:')) {
 				if (!didWebs.has(did)) {
 					console.log(`  found ${did}`);
@@ -204,22 +213,37 @@ let firehoseCursor: string | undefined = state?.firehose.cursor;
 				}
 			}
 		}
+	}
 
-		cursor = data.cursor;
+	console.log(`  ending ${cursor || `<root>`}`);
 
-		if (cursor) {
-			firehoseCursor = cursor;
-		}
+	firehoseCursor = cursor;
 
-		if (!throttled) {
-			throttled = true;
-			setTimeout(() => (throttled = false), 60_000).unref();
+	type JetstreamEvent = AccountEvent | IdentityEvent;
 
-			console.log(`  at ${cursor || '<root>'}`);
-		}
-	} while (cursor !== undefined);
+	interface AccountEvent {
+		kind: 'account';
+		did: string;
+		time_us: number;
+		account: {
+			seq: number;
+			did: string;
+			time: string;
+			active: boolean;
+		};
+	}
 
-	console.log(`  ending ${firehoseCursor || '<root>'}`);
+	interface IdentityEvent {
+		kind: 'identity';
+		did: string;
+		time_us: number;
+		identity: {
+			seq: number;
+			did: string;
+			time: string;
+			handle?: string;
+		};
+	}
 }
 
 // Retrieve PDS information from known did:web identities
