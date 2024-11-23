@@ -225,6 +225,7 @@ Instances that have not been active for more than 14 days gets dropped off from 
 	function sanitize(str: string): string {
 		return str
 			.replace(/[^ a-zA-Z0-9-_=+.,:;!`'"<>()\[\]/\\]/g, '')
-			.replace(/([<\\\[!`]|(?<=\s)[_])/g, '\\$1');
+			.replace(/([<\\\[!`]|(?<=\s)[_])/g, '\\$1')
+			.slice(0, 65);
 	}
 }
