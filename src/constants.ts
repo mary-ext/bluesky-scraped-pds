@@ -1,13 +1,7 @@
 export const PLC_URL = `https://plc.directory`;
 export const RELAY_URL = `https://relay1.us-west.bsky.network`;
 
-export const JETSTREAM_URLS = [
-	`wss://jetstream1.us-east.bsky.network/subscribe`,
-	`wss://jetstream2.us-east.bsky.network/subscribe`,
-	`wss://jetstream1.us-west.bsky.network/subscribe`,
-	`wss://jetstream2.us-west.bsky.network/subscribe`,
-];
-export const JETSTREAM_URL = JETSTREAM_URLS[(Math.random() * JETSTREAM_URLS.length) | 0];
+export const JETSTREAM_URL = `wss://jetstream1.us-east.bsky.network/subscribe`;
 
 /** If `now` and `errorAt` has passed this amount of days, it should stop tracking. */
 export const MAX_FAILURE_DAYS = 14;
