@@ -185,9 +185,17 @@ let firehoseCursor: number | undefined = state?.firehose.cursor;
 	console.log(`  connecting to ${JETSTREAM_URL}`);
 	console.log(`  starting ${cursor || `<root>`}`);
 
-	const ws = createWebSocketStream<JetstreamEvent>(
-		() => JETSTREAM_URL + `?cursor=${cursor}` + `&wantedCollections=invalid.nsid.record`,
-	);
+	const ws = createWebSocketStream<JetstreamEvent>({
+		url() {
+			return JETSTREAM_URL + `?cursor=${cursor}` + `&wantedCollections=invalid.nsid.record`;
+		},
+		onOpen() {
+			console.log(`  connected`);
+		},
+		onClose() {
+			console.log(`  closed`);
+		},
+	});
 
 	for await (const data of ws) {
 		if (data.time_us > cursor) {
