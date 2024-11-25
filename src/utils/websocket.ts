@@ -1,17 +1,29 @@
-import { WebSocket } from 'partysocket';
-
-export const createWebSocketStream = <T = any>(url: () => string) => {
+export const createWebSocketStream = <T = any>(url: string | URL) => {
 	let ws: WebSocket | undefined;
+	let closed = false;
 
 	return new ReadableStream<T>({
 		start(controller) {
-			ws = new WebSocket(url, null, { maxRetries: Infinity });
+			ws = new WebSocket(url);
+			closed = false;
 
-			ws.addEventListener('message', (ev) => {
+			ws.onclose = (ev) => {
+				if (!closed) {
+					closed = true;
+
+					if (ev.wasClean) {
+						controller.close();
+					} else {
+						controller.error(new Error(`websocket error ${ev.code}`));
+					}
+				}
+			};
+			ws.onmessage = (ev) => {
 				controller.enqueue(JSON.parse(ev.data));
-			});
+			};
 		},
 		cancel() {
+			closed = true;
 			ws?.close();
 		},
 	});
