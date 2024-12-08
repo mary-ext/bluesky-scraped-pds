@@ -5388,10 +5388,6 @@
 			"inviteCodeRequired": true,
 			"version": "0.4.67"
 		},
-		"https://bsky.social/": {
-			"inviteCodeRequired": false,
-			"version": "git-e978edb"
-		},
 		"https://bsky.solidunit.win/": {
 			"inviteCodeRequired": true,
 			"version": "0.4.74"
