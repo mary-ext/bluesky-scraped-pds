@@ -12,7 +12,14 @@ import {
 	type SerializedState,
 } from '../src/state';
 
-import { DEFAULT_HEADERS, EXCLUSIONS_RE, JETSTREAM_URL, MAX_FAILURE_DAYS, PLC_URL } from '../src/constants';
+import {
+	DEFAULT_HEADERS,
+	DID_WEB_EXCLUSIONS_RE,
+	EXCLUSIONS_RE,
+	JETSTREAM_URL,
+	MAX_FAILURE_DAYS,
+	PLC_URL,
+} from '../src/constants';
 import { didDocument, type DidDocument } from '../src/utils/did';
 import { PromiseQueue } from '../src/utils/pqueue';
 import { LineBreakStream, TextDecoderStream } from '../src/utils/stream';
@@ -208,6 +215,11 @@ let firehoseCursor: number | undefined = state?.firehose.cursor;
 			const did = data.did;
 
 			if (did.startsWith('did:web:')) {
+				if (DID_WEB_EXCLUSIONS_RE.test(did)) {
+					console.log(`  found excluded did: ${did}`);
+					continue;
+				}
+
 				const info = didWebs.get(did);
 
 				if (info === undefined) {
