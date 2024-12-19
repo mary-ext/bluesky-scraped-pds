@@ -60,6 +60,29 @@ const offHealthResponse = v.object({
 	version: v.string().assert((input) => input.length <= 130),
 });
 
+const limitedFetch: typeof fetch = async (input, init) => {
+	const response = await fetch(input, init);
+	const headers = response.headers;
+
+	const type = headers.get('content-type');
+	if (type === null || !/\bapplication\/json\b/.test(type)) {
+		throw new TypeError(`expected 'application/json' as the response type`);
+	}
+
+	const length = headers.get('content-length');
+	if (length !== null) {
+		const parsedLength = parseInt(length);
+		if (Number.isNaN(parsedLength)) {
+			throw new RangeError(`response length can't be determined`);
+		}
+		if (parsedLength > 1 * 1000 * 1000) {
+			throw new RangeError(`response length is more than 1mb`);
+		}
+	}
+
+	return response;
+};
+
 // Global states
 const pdses = new Map<string, PDSInfo>(state ? Object.entries(state.pdses) : []);
 const labelers = new Map<string, LabelerInfo>(state ? Object.entries(state.labelers) : []);
@@ -73,7 +96,7 @@ await Promise.all(
 	Array.from(pdses, ([href, obj]) => {
 		return queue.add(async () => {
 			const host = new URL(href).host;
-			const rpc = new XRPC({ handler: simpleFetchHandler({ service: href }) });
+			const rpc = new XRPC({ handler: simpleFetchHandler({ service: href, fetch: limitedFetch }) });
 
 			const start = performance.now();
 
@@ -128,7 +151,7 @@ await Promise.all(
 	Array.from(labelers, async ([href, obj]) => {
 		return queue.add(async () => {
 			const host = new URL(href).host;
-			const rpc = new XRPC({ handler: simpleFetchHandler({ service: href }) });
+			const rpc = new XRPC({ handler: simpleFetchHandler({ service: href, fetch: limitedFetch }) });
 
 			const start = performance.now();
 
@@ -224,7 +247,7 @@ async function getVersion(rpc: XRPC, prev: string | null | undefined) {
 	try {
 		// @ts-expect-error: undocumented endpoint
 		const { data: rawData } = await rpc.get('_health', { headers: DEFAULT_HEADERS });
-		let { version } = offHealthResponse.parse(rawData, { mode: 'passthrough' });
+		const { version } = offHealthResponse.parse(rawData, { mode: 'passthrough' });
 
 		return /^[0-9a-f]{40}$/.test(version) ? `git-${version.slice(0, 7)}` : version;
 	} catch (err) {
