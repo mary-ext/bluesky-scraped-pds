@@ -57,7 +57,7 @@ const labelerQueryLabelsResponse = v.object({
 });
 
 const offHealthResponse = v.object({
-	version: v.string(),
+	version: v.string().assert((input) => input.length <= 130),
 });
 
 // Global states
@@ -225,10 +225,6 @@ async function getVersion(rpc: XRPC, prev: string | null | undefined) {
 		// @ts-expect-error: undocumented endpoint
 		const { data: rawData } = await rpc.get('_health', { headers: DEFAULT_HEADERS });
 		let { version } = offHealthResponse.parse(rawData, { mode: 'passthrough' });
-
-		if (version.length > 130) {
-			version = version.slice(0, 130) + '…';
-		}
 
 		return /^[0-9a-f]{40}$/.test(version) ? `git-${version.slice(0, 7)}` : version;
 	} catch (err) {
