@@ -3,15 +3,15 @@
   "workspaces": {
     "": {
       "dependencies": {
-        "@atcute/bluesky": "^1.0.8",
-        "@atcute/client": "^2.0.5",
-        "@badrap/valita": "^0.3.11",
+        "@atcute/bluesky": "^1.0.11",
+        "@atcute/client": "^2.0.6",
+        "@badrap/valita": "^0.4.2",
         "date-fns": "^3.6.0",
-        "tldts": "^6.1.63",
+        "tldts": "^6.1.68",
       },
       "devDependencies": {
-        "@types/bun": "^1.1.13",
-        "prettier": "^3.3.3",
+        "@types/bun": "^1.1.14",
+        "prettier": "^3.4.2",
         "typescript": "^5.7.2",
       },
     },
@@ -21,7 +21,7 @@
 
     "@atcute/client": ["@atcute/client@2.0.6", "", {}, "sha512-mhdqEicGUx0s5HTFOLpz91rcLS9j/g63de0nmAqv7blhU3j+xBf4le54qr2YIXNfnReZI7EwLYLX/YIBez4LGA=="],
 
-    "@badrap/valita": ["@badrap/valita@0.3.16", "", {}, "sha512-slP2blSd6A+xUBgGf+wW6adGd72ojBLxemU0jXQ0fXQcsZWYQ70wTLTJggs6+oxcAqN/bvYA3Ops8SqR2Imyaw=="],
+    "@badrap/valita": ["@badrap/valita@0.4.2", "", {}, "sha512-Mwmr7k2iK0Yy0POLnAFUgab2mxKYeIsYXHY7sg3jo8XFsFHbG0SBmTcktXD0uW8N4WZePKf8s68QV7QDTGSdHA=="],
 
     "@types/bun": ["@types/bun@1.1.14", "", { "dependencies": { "bun-types": "1.1.37" } }, "sha512-opVYiFGtO2af0dnWBdZWlioLBoxSdDO5qokaazLhq8XQtGZbY4pY3/JxY8Zdf/hEwGubbp7ErZXoN1+h2yesxA=="],
 
