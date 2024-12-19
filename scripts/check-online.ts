@@ -224,7 +224,11 @@ async function getVersion(rpc: XRPC, prev: string | null | undefined) {
 	try {
 		// @ts-expect-error: undocumented endpoint
 		const { data: rawData } = await rpc.get('_health', { headers: DEFAULT_HEADERS });
-		const { version } = offHealthResponse.parse(rawData, { mode: 'passthrough' });
+		let { version } = offHealthResponse.parse(rawData, { mode: 'passthrough' });
+
+		if (version.length > 130) {
+			version = version.slice(0, 130) + '…';
+		}
 
 		return /^[0-9a-f]{40}$/.test(version) ? `git-${version.slice(0, 7)}` : version;
 	} catch (err) {
