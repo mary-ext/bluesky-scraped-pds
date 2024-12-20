@@ -1,7 +1,15 @@
-export const jsonFetch: typeof fetch = async (input, init) => {
-	const MAX_LENGTH = 1 * 1000 * 1000;
+const MAX_LENGTH = 1 * 1000 * 1000;
+const MAX_DURATION = 5_000;
 
-	const response = await fetch(input, init);
+export const jsonFetch: typeof fetch = async (input, init) => {
+	const response = await fetch(input, {
+		...init,
+		signal: followAbortSignal([
+			init?.signal,
+			AbortSignal.timeout(MAX_DURATION),
+		]),
+	});
+
 	const headers = response.headers;
 
 	const type = headers.get('content-type');
@@ -61,4 +69,31 @@ export const jsonFetch: typeof fetch = async (input, init) => {
 		status: response.status,
 		statusText: response.statusText,
 	});
+};
+
+const followAbortSignal = (signals: (AbortSignal | null | undefined)[]): AbortSignal | undefined => {
+	const filtered = signals.filter((signal): signal is AbortSignal => signal != null);
+
+	if (filtered.length === 0) {
+		return;
+	}
+	if (filtered.length === 1) {
+		return filtered[0];
+	}
+
+	const controller = new AbortController();
+	const own = controller.signal;
+
+	for (let idx = 0, len = filtered.length; idx < len; idx++) {
+		const signal = filtered[idx];
+
+		if (signal.aborted) {
+			controller.abort(signal.reason);
+			break;
+		}
+
+		signal.addEventListener('abort', () => controller.abort(signal.reason), { signal: own });
+	}
+
+	return own;
 };

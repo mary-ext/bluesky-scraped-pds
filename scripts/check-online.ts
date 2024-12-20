@@ -76,9 +76,8 @@ await pmap(Array.from(pdses), async ([href, obj]) => {
 
 	const start = performance.now();
 
-	const signal = AbortSignal.timeout(5_000);
 	const meta = await rpc
-		.get('com.atproto.server.describeServer', { signal, headers: DEFAULT_HEADERS })
+		.get('com.atproto.server.describeServer', { headers: DEFAULT_HEADERS })
 		.then(({ data: rawData }) => {
 			const data = pdsDescribeServerResponse.parse(rawData, { mode: 'passthrough' });
 
@@ -126,10 +125,8 @@ await pmap(labelers, async ([href, obj]) => {
 
 	const start = performance.now();
 
-	const signal = AbortSignal.timeout(5_000);
 	const meta = await rpc
 		.get('com.atproto.label.queryLabels', {
-			signal: signal,
 			headers: DEFAULT_HEADERS,
 			params: { uriPatterns: ['*'], limit: 1 },
 		})

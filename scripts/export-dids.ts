@@ -277,9 +277,7 @@ let firehoseCursor: number | undefined = state?.firehose.cursor;
 		const obj = didWebs.get(did)!;
 
 		try {
-			const signal = AbortSignal.timeout(5_000);
-
-			const res = await jsonFetch(`https://${host}/.well-known/did.json`, { signal });
+			const res = await jsonFetch(`https://${host}/.well-known/did.json`);
 			if (!res.ok) {
 				throw new Error(`got ${res.status}`);
 			}
