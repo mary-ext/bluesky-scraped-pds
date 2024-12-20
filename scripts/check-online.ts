@@ -142,7 +142,7 @@ await Promise.all(
 
 			const start = performance.now();
 
-			const signal = AbortSignal.timeout(15_000);
+			const signal = AbortSignal.timeout(2_000);
 			const meta = await rpc
 				.get('com.atproto.server.describeServer', { signal, headers: DEFAULT_HEADERS })
 				.then(({ data: rawData }) => {
@@ -197,7 +197,7 @@ await Promise.all(
 
 			const start = performance.now();
 
-			const signal = AbortSignal.timeout(15_000);
+			const signal = AbortSignal.timeout(2_000);
 			const meta = await rpc
 				.get('com.atproto.label.queryLabels', {
 					signal: signal,
