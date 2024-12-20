@@ -20,7 +20,9 @@ export const createWebSocketStream = <T = any>(url: string | URL) => {
 				}
 			};
 			ws.onmessage = (ev) => {
-				controller.enqueue(JSON.parse(ev.data));
+				if (!closed) {
+					controller.enqueue(JSON.parse(ev.data));
+				}
 			};
 		},
 		cancel() {
