@@ -61,26 +61,68 @@ const offHealthResponse = v.object({
 });
 
 const limitedFetch: typeof fetch = async (input, init) => {
+	const MAX_LENGTH = 1 * 1000 * 1000;
+
 	const response = await fetch(input, init);
 	const headers = response.headers;
 
 	const type = headers.get('content-type');
 	if (type === null || !/\bapplication\/json\b/.test(type)) {
+		response.body?.cancel();
 		throw new TypeError(`expected 'application/json' as the response type`);
 	}
 
-	const length = headers.get('content-length');
-	if (length !== null) {
-		const parsedLength = parseInt(length);
-		if (Number.isNaN(parsedLength)) {
+	const rawLength = headers.get('content-length');
+	let length: number | undefined;
+	if (rawLength !== null) {
+		length = Number(rawLength);
+		if (!Number.isSafeInteger(length) || length <= 0) {
+			response.body?.cancel();
 			throw new RangeError(`response length can't be determined`);
 		}
-		if (parsedLength > 1 * 1000 * 1000) {
-			throw new RangeError(`response length is more than 1mb`);
+		if (length > MAX_LENGTH) {
+			response.body?.cancel();
+			throw new RangeError(`response length is more than expected`);
 		}
 	}
 
-	return response;
+	let stream: ReadableStream<Uint8Array>;
+
+	{
+		const definedMaxLength = Math.min(MAX_LENGTH, length ?? MAX_LENGTH);
+		const reader = response.body!.getReader();
+
+		let totalBytes = 0;
+
+		stream = new ReadableStream({
+			async pull(controller) {
+				const { done, value } = await reader.read();
+
+				if (done) {
+					controller.close();
+					return;
+				}
+
+				totalBytes += value.byteLength;
+				if (totalBytes > definedMaxLength) {
+					controller.error(new RangeError(`response length is more than expected (${definedMaxLength})`));
+					reader.cancel();
+					return;
+				}
+
+				controller.enqueue(value);
+			},
+			cancel() {
+				reader.cancel();
+			},
+		});
+	}
+
+	return new Response(stream, {
+		headers: response.headers,
+		status: response.status,
+		statusText: response.statusText,
+	});
 };
 
 // Global states
