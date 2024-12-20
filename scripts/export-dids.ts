@@ -21,6 +21,7 @@ import {
 	PLC_URL,
 } from '../src/constants';
 import { didDocument, type DidDocument } from '../src/utils/did';
+import { jsonFetch } from '../src/utils/json-fetch';
 import { PromiseQueue } from '../src/utils/pqueue';
 import { LineBreakStream, TextDecoderStream } from '../src/utils/stream';
 import { createWebSocketStream } from '../src/utils/websocket';
@@ -277,15 +278,11 @@ let firehoseCursor: number | undefined = state?.firehose.cursor;
 				const obj = didWebs.get(did)!;
 
 				try {
-					const signal = AbortSignal.timeout(15_000);
-					const res = await get(`https://${host}/.well-known/did.json`, signal);
+					const signal = AbortSignal.timeout(2_000);
 
-					const contentType = res.headers.get('content-type');
-					if (!contentType) {
-						throw new Error(`missing content type`);
-					}
-					if (!contentType.includes('application/json')) {
-						throw new Error(`incorrect content-type; got ${contentType}`);
+					const res = await jsonFetch(`https://${host}/.well-known/did.json`, { signal });
+					if (!res.ok) {
+						throw new Error(`got ${res.status}`);
 					}
 
 					const text = await res.text();
