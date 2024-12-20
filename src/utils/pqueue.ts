@@ -1,4 +1,5 @@
 export class PromiseQueue {
+	// deno-lint-ignore no-explicit-any
 	#queue: { deferred: PromiseWithResolvers<any>; fn: () => any }[] = [];
 
 	#max: number;

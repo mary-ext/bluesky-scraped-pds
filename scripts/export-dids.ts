@@ -1,16 +1,12 @@
-import crypto from 'node:crypto';
-
-import * as v from '@badrap/valita';
 import { differenceInDays } from 'date-fns/differenceInDays';
-import * as tld from 'tldts';
 
 import {
-	serializedState,
 	type DidWebInfo,
 	type InstanceInfo,
 	type LabelerInfo,
 	type SerializedState,
-} from '../src/state';
+	serializedState,
+} from '../src/state.ts';
 
 import {
 	DEFAULT_HEADERS,
@@ -19,16 +15,21 @@ import {
 	JETSTREAM_URL,
 	MAX_FAILURE_DAYS,
 	PLC_URL,
-} from '../src/constants';
-import { didDocument, type DidDocument } from '../src/utils/did';
-import { jsonFetch } from '../src/utils/json-fetch';
-import { PromiseQueue } from '../src/utils/pqueue';
-import { LineBreakStream, TextDecoderStream } from '../src/utils/stream';
-import { createWebSocketStream } from '../src/utils/websocket';
+} from '../src/constants.ts';
+import {
+	coerceAtprotoServiceEndpoint,
+	didDocument,
+	getLabelerEndpoint,
+	getPdsEndpoint,
+} from '../src/utils/did.ts';
+import { jsonFetch } from '../src/utils/json-fetch.ts';
+import { PromiseQueue } from '../src/utils/pqueue.ts';
+import { LineBreakStream } from '../src/utils/stream.ts';
+import { createWebSocketStream } from '../src/utils/websocket.ts';
 
 const now = Date.now();
 
-const env = v.object({ STATE_FILE: v.string() }).parse(process.env, { mode: 'passthrough' });
+const STATE_FILE = Deno.env.get('STATE_FILE')!;
 
 let state: SerializedState | undefined;
 
@@ -37,8 +38,11 @@ let state: SerializedState | undefined;
 	let json: unknown;
 
 	try {
-		json = await Bun.file(env.STATE_FILE).json();
-	} catch {}
+		const source = await Deno.readTextFile(STATE_FILE);
+		json = JSON.parse(source);
+	} catch {
+		/* empty */
+	}
 
 	if (json !== undefined) {
 		state = serializedState.parse(json);
@@ -78,8 +82,8 @@ let firehoseCursor: number | undefined = state?.firehose.cursor;
 			const { did, operation, createdAt } = json;
 
 			if (operation.type === 'plc_operation') {
-				const pds = getEndpoint(operation.services.atproto_pds?.endpoint);
-				const labeler = getEndpoint(operation.services.atproto_labeler?.endpoint);
+				const pds = coerceAtprotoServiceEndpoint(operation.services.atproto_pds?.endpoint);
+				const labeler = coerceAtprotoServiceEndpoint(operation.services.atproto_labeler?.endpoint);
 
 				jump: if (pds) {
 					if (EXCLUSIONS_RE.test(pds)) {
@@ -154,7 +158,7 @@ let firehoseCursor: number | undefined = state?.firehose.cursor;
 		/** Record<string, did:key> */
 		verificationMethods: Record<string, string>;
 		alsoKnownAs: string[];
-		services: Record<string, Service>;
+		services: Record<string, Service | undefined>;
 		prev: string | null;
 		sig: string;
 	}
@@ -206,7 +210,7 @@ let firehoseCursor: number | undefined = state?.firehose.cursor;
 
 		if (!throttled) {
 			throttled = true;
-			setTimeout(() => (throttled = false), 60_000).unref();
+			Deno.unrefTimer(setTimeout(() => (throttled = false), 60_000));
 
 			console.log(`  at ${new Date(cursor / 1_000).toISOString()}`);
 		}
@@ -278,7 +282,7 @@ let firehoseCursor: number | undefined = state?.firehose.cursor;
 				const obj = didWebs.get(did)!;
 
 				try {
-					const signal = AbortSignal.timeout(2_000);
+					const signal = AbortSignal.timeout(5_000);
 
 					const res = await jsonFetch(`https://${host}/.well-known/did.json`, { signal });
 					if (!res.ok) {
@@ -286,7 +290,7 @@ let firehoseCursor: number | undefined = state?.firehose.cursor;
 					}
 
 					const text = await res.text();
-					const sha256sum = getHash('sha256', text);
+					const sha256sum = await getSha256Hash(text);
 
 					if (obj.hash !== sha256sum) {
 						const json = JSON.parse(text);
@@ -379,7 +383,7 @@ let firehoseCursor: number | undefined = state?.firehose.cursor;
 		labelers: Object.fromEntries(Array.from(labelers)),
 	};
 
-	await Bun.write(env.STATE_FILE, JSON.stringify(serialized, null, '\t'));
+	await Deno.writeTextFile(STATE_FILE, JSON.stringify(serialized, null, '\t'));
 }
 
 async function get(url: string, signal?: AbortSignal): Promise<Response> {
@@ -405,57 +409,39 @@ function sleep(ms: number): Promise<void> {
 	return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-function getPdsEndpoint(doc: DidDocument): string | undefined {
-	return getServiceEndpoint(doc, '#atproto_pds', 'AtprotoPersonalDataServer');
+async function getSha256Hash(data: string) {
+	const encoder = new TextEncoder();
+	const bytes = encoder.encode(data);
+
+	const hash = await crypto.subtle.digest('SHA-256', bytes);
+
+	return toBase64Url(new Uint8Array(hash));
 }
 
-function getLabelerEndpoint(doc: DidDocument): string | undefined {
-	return getServiceEndpoint(doc, '#atproto_labeler', 'AtprotoLabeler');
-}
+function toBase64Url(array: Uint8Array) {
+	const BASE64_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+	const len = array.length;
 
-function getServiceEndpoint(doc: DidDocument, serviceId: string, serviceType: string): string | undefined {
-	const did = doc.id;
+	let result = '';
+	let idx = 0;
+	let triplet: number;
 
-	const didServiceId = did + serviceId;
-	const found = doc.service?.find((service) => service.id === serviceId || service.id === didServiceId);
+	const at = (shift: number): string => {
+		return BASE64_ALPHABET[(triplet >> (6 * shift)) & 63];
+	};
 
-	if (!found || found.type !== serviceType || typeof found.serviceEndpoint !== 'string') {
-		return undefined;
+	for (; idx + 2 < len; idx += 3) {
+		triplet = (array[idx] << 16) + (array[idx + 1] << 8) + array[idx + 2];
+		result += at(3) + at(2) + at(1) + at(0);
 	}
 
-	return getEndpoint(found.serviceEndpoint);
-}
-function getEndpoint(urlStr: string | undefined): string | undefined {
-	if (urlStr === undefined) {
-		return undefined;
+	if (idx + 2 === len) {
+		triplet = (array[idx] << 16) + (array[idx + 1] << 8);
+		result += at(3) + at(2) + at(1);
+	} else if (idx + 1 === len) {
+		triplet = array[idx] << 16;
+		result += at(3) + at(2);
 	}
 
-	const url = URL.parse(urlStr);
-
-	if (
-		!url ||
-		!(url.protocol === 'http:' || url.protocol === 'https:') ||
-		url.pathname !== '/' ||
-		url.search !== '' ||
-		url.hash !== '' ||
-		url.port !== '' ||
-		url.username !== '' ||
-		url.password !== ''
-	) {
-		return undefined;
-	}
-
-	const parsed = tld.parse(url.hostname);
-	if (!parsed.domain || !(parsed.isIcann || parsed.isIp)) {
-		return undefined;
-	}
-
-	return url.href;
-}
-
-function getHash(algo: string, data: string) {
-	const hasher = crypto.createHash(algo);
-	hasher.update(data);
-
-	return hasher.digest('base64url');
+	return result;
 }

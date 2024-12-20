@@ -1,3 +1,4 @@
+// deno-lint-ignore no-explicit-any
 export const createWebSocketStream = <T = any>(url: string | URL) => {
 	let ws: WebSocket | undefined;
 	let closed = false;

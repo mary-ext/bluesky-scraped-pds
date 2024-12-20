@@ -18,22 +18,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v1
+      - name: Setup Deno
+        uses: denoland/setup-deno@v2
         with:
-          bun-version: latest
-
-      - name: Install dependencies
-        run: bun install --frozen-lockfile
+          deno-version: v2.x
 
       - name: Run export-dids script
-        run: bun run ./scripts/export-dids.ts
+        run: deno run -A ./scripts/export-dids.ts
 
       - name: Run check-online script
-        run: bun run ./scripts/check-online.ts
+        run: deno run -A ./scripts/check-online.ts
 
       - name: Run generate-markdown script
-        run: bun run ./scripts/generate-markdown.ts
+        run: deno run -A ./scripts/generate-markdown.ts
 
       - name: Push to repository
         run: |

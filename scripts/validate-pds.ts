@@ -1,14 +1,12 @@
 import { simpleFetchHandler, XRPC, XRPCError } from '@atcute/client';
 import type { At } from '@atcute/client/lexicons';
 
-import * as v from '@badrap/valita';
+import { type SerializedState, serializedState } from '../src/state.ts';
 
-import { serializedState, type SerializedState } from '../src/state';
+import { RELAY_URL } from '../src/constants.ts';
+import { PromiseQueue } from '../src/utils/pqueue.ts';
 
-import { RELAY_URL } from '../src/constants';
-import { PromiseQueue } from '../src/utils/pqueue';
-
-const env = v.object({ STATE_FILE: v.string() }).parse(process.env, { mode: 'passthrough' });
+const STATE_FILE = Deno.env.get('STATE_FILE')!;
 
 let state: SerializedState | undefined;
 
@@ -17,8 +15,11 @@ let state: SerializedState | undefined;
 	let json: unknown;
 
 	try {
-		json = await Bun.file(env.STATE_FILE).json();
-	} catch {}
+		const source = await Deno.readTextFile(STATE_FILE);
+		json = JSON.parse(source);
+	} catch {
+		/* empty */
+	}
 
 	if (json !== undefined) {
 		state = serializedState.parse(json);
@@ -101,9 +102,10 @@ await Promise.all(
 		labelers: state?.labelers || {},
 	};
 
-	await Bun.write(env.STATE_FILE, JSON.stringify(serialized, null, '\t'));
+	await Deno.writeTextFile(STATE_FILE, JSON.stringify(serialized, null, '\t'));
 }
 
+// deno-lint-ignore no-explicit-any
 function shuffle(array: any[]) {
 	for (let i = array.length - 1; i > 0; i--) {
 		const j = Math.floor(Math.random() * (i + 1));

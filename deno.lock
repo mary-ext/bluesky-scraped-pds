@@ -1,0 +1,45 @@
+{
+  "version": "4",
+  "specifiers": {
+    "npm:@atcute/bluesky@^1.0.11": "1.0.11_@atcute+client@2.0.6",
+    "npm:@atcute/client@^2.0.6": "2.0.6",
+    "npm:@badrap/valita@~0.4.2": "0.4.2",
+    "npm:date-fns@^4.1.0": "4.1.0",
+    "npm:tldts@^6.1.69": "6.1.69"
+  },
+  "npm": {
+    "@atcute/bluesky@1.0.11_@atcute+client@2.0.6": {
+      "integrity": "sha512-j4wLJIzKWh0gmQZ7s5svhEVRThlzqyfstbM0qM/H1Y+ZIQESx5HtVu+390zAWzZoEKZYSyTM9+ctY39OiEGDQw==",
+      "dependencies": [
+        "@atcute/client"
+      ]
+    },
+    "@atcute/client@2.0.6": {
+      "integrity": "sha512-mhdqEicGUx0s5HTFOLpz91rcLS9j/g63de0nmAqv7blhU3j+xBf4le54qr2YIXNfnReZI7EwLYLX/YIBez4LGA=="
+    },
+    "@badrap/valita@0.4.2": {
+      "integrity": "sha512-Mwmr7k2iK0Yy0POLnAFUgab2mxKYeIsYXHY7sg3jo8XFsFHbG0SBmTcktXD0uW8N4WZePKf8s68QV7QDTGSdHA=="
+    },
+    "date-fns@4.1.0": {
+      "integrity": "sha512-Ukq0owbQXxa/U3EGtsdVBkR1w7KOQ5gIBqdH2hkvknzZPYvBxb/aa6E8L7tmjFtkwZBu3UXBbjIgPo/Ez4xaNg=="
+    },
+    "tldts-core@6.1.69": {
+      "integrity": "sha512-nygxy9n2PBUFQUtAXAc122gGo+04/j5qr5TGQFZTHafTKYvmARVXt2cA5rgero2/dnXUfkdPtiJoKmrd3T+wdA=="
+    },
+    "tldts@6.1.69": {
+      "integrity": "sha512-Oh/CqRQ1NXNY7cy9NkTPUauOWiTro0jEYZTioGbOmcQh6EC45oribyIMJp0OJO3677r13tO6SKdWoGZUx2BDFw==",
+      "dependencies": [
+        "tldts-core"
+      ]
+    }
+  },
+  "workspace": {
+    "dependencies": [
+      "npm:@atcute/bluesky@^1.0.11",
+      "npm:@atcute/client@^2.0.6",
+      "npm:@badrap/valita@~0.4.2",
+      "npm:date-fns@^4.1.0",
+      "npm:tldts@^6.1.69"
+    ]
+  }
+}

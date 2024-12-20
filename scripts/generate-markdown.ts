@@ -1,10 +1,9 @@
-import * as v from '@badrap/valita';
+// deno-lint-ignore-file no-inner-declarations
 
-import { serializedState, type SerializedState } from '../src/state';
+import { type SerializedState, serializedState } from '../src/state.ts';
 
-const env = v
-	.object({ STATE_FILE: v.string(), RESULT_FILE: v.string() })
-	.parse(process.env, { mode: 'passthrough' });
+const STATE_FILE = Deno.env.get('STATE_FILE')!;
+const RESULT_FILE = Deno.env.get('RESULT_FILE')!;
 
 let state: SerializedState | undefined;
 
@@ -13,8 +12,11 @@ let state: SerializedState | undefined;
 	let json: unknown;
 
 	try {
-		json = await Bun.file(env.STATE_FILE).json();
-	} catch {}
+		const source = await Deno.readTextFile(STATE_FILE);
+		json = await JSON.parse(source);
+	} catch {
+		/* empty */
+	}
 
 	if (json !== undefined) {
 		state = serializedState.parse(json);
@@ -124,7 +126,7 @@ Instances that have not been active for more than 14 days gets dropped off from 
 	let shouldWrite = true;
 
 	try {
-		const source = await Bun.file(env.RESULT_FILE).text();
+		const source = await Deno.readTextFile(RESULT_FILE);
 
 		if (
 			PDS_3P_TABLE.exec(source)?.[0] === pds3pTable &&
@@ -134,7 +136,9 @@ Instances that have not been active for more than 14 days gets dropped off from 
 		) {
 			shouldWrite = false;
 		}
-	} catch {}
+	} catch {
+		/* empty */
+	}
 
 	// Write the markdown file
 	if (shouldWrite) {
@@ -147,8 +151,8 @@ Instances that have not been active for more than 14 days gets dropped off from 
 			.replace(LABELER_3P_RE, labeler3pTable)
 			.replace(LABELER_BSKY_RE, labelerBskyTable);
 
-		await Bun.write(env.RESULT_FILE, final);
-		console.log(`wrote to ${env.RESULT_FILE}`);
+		await Deno.writeTextFile(RESULT_FILE, final);
+		console.log(`wrote to ${RESULT_FILE}`);
 	} else {
 		console.log(`writing skipped`);
 	}
@@ -199,7 +203,7 @@ Instances that have not been active for more than 14 days gets dropped off from 
 		let onlineCount = 0;
 		let offlineCount = 0;
 
-		for (const [href, info] of labelers) {
+		for (const [_href, info] of labelers) {
 			const { errorAt } = info;
 
 			totalCount++;

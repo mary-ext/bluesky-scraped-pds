@@ -1,17 +1,18 @@
+// deno-lint-ignore-file require-await no-explicit-any
+
 import { simpleFetchHandler, XRPC, XRPCError } from '@atcute/client';
 import * as v from '@badrap/valita';
 
 import { differenceInDays } from 'date-fns/differenceInDays';
 
-import { DEFAULT_HEADERS, MAX_FAILURE_DAYS } from '../src/constants';
-import { serializedState, type LabelerInfo, type PDSInfo, type SerializedState } from '../src/state';
-
-import { jsonFetch } from '../src/utils/json-fetch';
-import { PromiseQueue } from '../src/utils/pqueue';
+import { DEFAULT_HEADERS, MAX_FAILURE_DAYS } from '../src/constants.ts';
+import { type LabelerInfo, type PDSInfo, type SerializedState, serializedState } from '../src/state.ts';
+import { jsonFetch } from '../src/utils/json-fetch.ts';
+import { PromiseQueue } from '../src/utils/pqueue.ts';
 
 const now = Date.now();
 
-const env = v.object({ STATE_FILE: v.string() }).parse(process.env, { mode: 'passthrough' });
+const STATE_FILE = Deno.env.get('STATE_FILE')!;
 
 let state: SerializedState | undefined;
 
@@ -20,8 +21,11 @@ let state: SerializedState | undefined;
 	let json: unknown;
 
 	try {
-		json = await Bun.file(env.STATE_FILE).json();
-	} catch {}
+		const source = await Deno.readTextFile(STATE_FILE);
+		json = JSON.parse(source);
+	} catch {
+		/* empty */
+	}
 
 	if (json !== undefined) {
 		state = serializedState.parse(json);
@@ -78,7 +82,7 @@ await Promise.all(
 
 			const start = performance.now();
 
-			const signal = AbortSignal.timeout(2_000);
+			const signal = AbortSignal.timeout(5_000);
 			const meta = await rpc
 				.get('com.atproto.server.describeServer', { signal, headers: DEFAULT_HEADERS })
 				.then(({ data: rawData }) => {
@@ -133,7 +137,7 @@ await Promise.all(
 
 			const start = performance.now();
 
-			const signal = AbortSignal.timeout(2_000);
+			const signal = AbortSignal.timeout(5_000);
 			const meta = await rpc
 				.get('com.atproto.label.queryLabels', {
 					signal: signal,
@@ -213,7 +217,7 @@ await Promise.all(
 		return value;
 	};
 
-	await Bun.write(env.STATE_FILE, JSON.stringify(serialized, replacer, '\t'));
+	await Deno.writeTextFile(STATE_FILE, JSON.stringify(serialized, replacer, '\t'));
 }
 
 async function getVersion(rpc: XRPC, prev: string | null | undefined) {

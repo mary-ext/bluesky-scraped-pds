@@ -1,0 +1,18 @@
+{
+	"tasks": {
+	},
+	"fmt": {
+		"useTabs": true,
+		"indentWidth": 2,
+		"lineWidth": 110,
+		"semiColons": true,
+		"singleQuote": true
+	},
+	"imports": {
+		"@atcute/bluesky": "npm:@atcute/bluesky@^1.0.11",
+		"@atcute/client": "npm:@atcute/client@^2.0.6",
+		"@badrap/valita": "npm:@badrap/valita@^0.4.2",
+		"date-fns": "npm:date-fns@^4.1.0",
+		"tldts": "npm:tldts@^6.1.69"
+	}
+}
