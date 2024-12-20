@@ -1,14 +1,12 @@
-// deno-lint-ignore-file require-await no-explicit-any
-
 import { simpleFetchHandler, XRPC, XRPCError } from '@atcute/client';
 import * as v from '@badrap/valita';
 
 import { differenceInDays } from 'date-fns/differenceInDays';
+import pmap from 'p-map';
 
 import { DEFAULT_HEADERS, MAX_FAILURE_DAYS } from '../src/constants.ts';
 import { type LabelerInfo, type PDSInfo, type SerializedState, serializedState } from '../src/state.ts';
 import { jsonFetch } from '../src/utils/json-fetch.ts';
-import { PromiseQueue } from '../src/utils/pqueue.ts';
 
 const now = Date.now();
 
@@ -69,112 +67,100 @@ const offHealthResponse = v.object({
 const pdses = new Map<string, PDSInfo>(state ? Object.entries(state.pdses) : []);
 const labelers = new Map<string, LabelerInfo>(state ? Object.entries(state.labelers) : []);
 
-const queue = new PromiseQueue();
-
 // Connect to PDSes
 console.log(`crawling known pdses`);
 
-await Promise.all(
-	Array.from(pdses, ([href, obj]) => {
-		return queue.add(async () => {
-			const host = new URL(href).host;
-			const rpc = new XRPC({ handler: simpleFetchHandler({ service: href, fetch: jsonFetch }) });
+await pmap(Array.from(pdses), async ([href, obj]) => {
+	const host = new URL(href).host;
+	const rpc = new XRPC({ handler: simpleFetchHandler({ service: href, fetch: jsonFetch }) });
 
-			const start = performance.now();
+	const start = performance.now();
 
-			const signal = AbortSignal.timeout(5_000);
-			const meta = await rpc
-				.get('com.atproto.server.describeServer', { signal, headers: DEFAULT_HEADERS })
-				.then(({ data: rawData }) => {
-					const data = pdsDescribeServerResponse.parse(rawData, { mode: 'passthrough' });
+	const signal = AbortSignal.timeout(5_000);
+	const meta = await rpc
+		.get('com.atproto.server.describeServer', { signal, headers: DEFAULT_HEADERS })
+		.then(({ data: rawData }) => {
+			const data = pdsDescribeServerResponse.parse(rawData, { mode: 'passthrough' });
 
-					if (data.did !== `did:web:${host}`) {
-						throw new Error(`did mismatch`);
-					}
-
-					return data;
-				})
-				.catch(() => null);
-
-			const end = performance.now();
-
-			if (meta === null) {
-				const errorAt = obj.errorAt;
-
-				if (errorAt === undefined) {
-					obj.errorAt = now;
-				} else if (differenceInDays(now, errorAt) > MAX_FAILURE_DAYS) {
-					// It's been days without a response, stop tracking.
-
-					pdses.delete(href);
-					return;
-				}
-
-				console.log(`  ${host}: fail (took ${end - start})`);
-				return { host, info: obj };
+			if (data.did !== `did:web:${host}`) {
+				throw new Error(`did mismatch`);
 			}
 
-			const version = await getVersion(rpc, obj.version);
+			return data;
+		})
+		.catch(() => null);
 
-			obj.version = version;
-			obj.inviteCodeRequired = meta.inviteCodeRequired;
-			obj.errorAt = undefined;
+	const end = performance.now();
 
-			console.log(`  ${host}: pass (took ${end - start})`);
-			return { host, info: obj };
-		});
-	}),
-).then((results) => results.filter((r) => r !== undefined));
+	if (meta === null) {
+		const errorAt = obj.errorAt;
+
+		if (errorAt === undefined) {
+			obj.errorAt = now;
+		} else if (differenceInDays(now, errorAt) > MAX_FAILURE_DAYS) {
+			// It's been days without a response, stop tracking.
+
+			pdses.delete(href);
+			return;
+		}
+
+		console.log(`  ${host}: fail (took ${end - start})`);
+		return;
+	}
+
+	const version = await getVersion(rpc, obj.version);
+
+	obj.version = version;
+	obj.inviteCodeRequired = meta.inviteCodeRequired;
+	obj.errorAt = undefined;
+
+	console.log(`  ${host}: pass (took ${end - start})`);
+}, { concurrency: 8 });
 
 // Connect to labelers
 console.log(`crawling known labelers`);
 
-await Promise.all(
-	Array.from(labelers, async ([href, obj]) => {
-		return queue.add(async () => {
-			const host = new URL(href).host;
-			const rpc = new XRPC({ handler: simpleFetchHandler({ service: href, fetch: jsonFetch }) });
+await pmap(labelers, async ([href, obj]) => {
+	const host = new URL(href).host;
+	const rpc = new XRPC({ handler: simpleFetchHandler({ service: href, fetch: jsonFetch }) });
 
-			const start = performance.now();
+	const start = performance.now();
 
-			const signal = AbortSignal.timeout(5_000);
-			const meta = await rpc
-				.get('com.atproto.label.queryLabels', {
-					signal: signal,
-					headers: DEFAULT_HEADERS,
-					params: { uriPatterns: ['*'], limit: 1 },
-				})
-				.then(({ data: rawData }) => labelerQueryLabelsResponse.parse(rawData, { mode: 'passthrough' }))
-				.catch(() => null);
+	const signal = AbortSignal.timeout(5_000);
+	const meta = await rpc
+		.get('com.atproto.label.queryLabels', {
+			signal: signal,
+			headers: DEFAULT_HEADERS,
+			params: { uriPatterns: ['*'], limit: 1 },
+		})
+		.then(({ data: rawData }) => labelerQueryLabelsResponse.parse(rawData, { mode: 'passthrough' }))
+		.catch(() => null);
 
-			const end = performance.now();
+	const end = performance.now();
 
-			if (meta === null) {
-				const errorAt = obj.errorAt;
+	if (meta === null) {
+		const errorAt = obj.errorAt;
 
-				if (errorAt === undefined) {
-					obj.errorAt = now;
-				} else if (differenceInDays(now, errorAt) > MAX_FAILURE_DAYS) {
-					// It's been days without a response, stop tracking.
+		if (errorAt === undefined) {
+			obj.errorAt = now;
+		} else if (differenceInDays(now, errorAt) > MAX_FAILURE_DAYS) {
+			// It's been days without a response, stop tracking.
 
-					labelers.delete(href);
-					return;
-				}
+			labelers.delete(href);
+			return;
+		}
 
-				console.log(`  ${host}: fail (took ${end - start})`);
-				return { host, info: obj };
-			}
+		console.log(`  ${host}: fail (took ${end - start})`);
+		return;
+	}
 
-			const version = await getVersion(rpc, obj.version);
+	const version = await getVersion(rpc, obj.version);
 
-			obj.version = version;
-			obj.errorAt = undefined;
+	obj.version = version;
+	obj.errorAt = undefined;
 
-			console.log(`  ${host}: pass (took ${end - start})`);
-			return { host, info: obj };
-		});
-	}),
-).then((results) => results.filter((r) => r !== undefined));
+	console.log(`  ${host}: pass (took ${end - start})`);
+}, { concurrency: 8 });
 
 // Persist the state
 {

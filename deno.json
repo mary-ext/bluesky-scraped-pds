@@ -13,6 +13,7 @@
 		"@atcute/client": "npm:@atcute/client@^2.0.6",
 		"@badrap/valita": "npm:@badrap/valita@^0.4.2",
 		"date-fns": "npm:date-fns@^4.1.0",
+		"p-map": "npm:p-map@^7.0.3",
 		"tldts": "npm:tldts@^6.1.69"
 	}
 }

@@ -1,4 +1,5 @@
 import { differenceInDays } from 'date-fns/differenceInDays';
+import pmap from 'p-map';
 
 import {
 	type DidWebInfo,
@@ -23,7 +24,6 @@ import {
 	getPdsEndpoint,
 } from '../src/utils/did.ts';
 import { jsonFetch } from '../src/utils/json-fetch.ts';
-import { PromiseQueue } from '../src/utils/pqueue.ts';
 import { LineBreakStream } from '../src/utils/stream.ts';
 import { createWebSocketStream } from '../src/utils/websocket.ts';
 
@@ -53,8 +53,6 @@ let state: SerializedState | undefined;
 const didWebs = new Map<string, DidWebInfo>(state ? Object.entries(state.firehose.didWebs) : []);
 const pdses = new Map<string, InstanceInfo>(state ? Object.entries(state.pdses) : []);
 const labelers = new Map<string, LabelerInfo>(state ? Object.entries(state.labelers) : []);
-
-const queue = new PromiseQueue();
 
 let plcCursor: string | undefined = state?.plc.cursor;
 let firehoseCursor: number | undefined = state?.firehose.cursor;
@@ -273,99 +271,94 @@ let firehoseCursor: number | undefined = state?.firehose.cursor;
 // Retrieve PDS information from known did:web identities
 {
 	console.log(`crawling known did:web identities`);
-	const dids = Array.from(didWebs.keys());
 
-	await Promise.all(
-		dids.map((did) => {
-			return queue.add(async () => {
-				const host = did.slice(8);
-				const obj = didWebs.get(did)!;
+	await pmap(Array.from(didWebs.keys()), async (did) => {
+		const host = did.slice(8);
+		const obj = didWebs.get(did)!;
 
-				try {
-					const signal = AbortSignal.timeout(5_000);
+		try {
+			const signal = AbortSignal.timeout(5_000);
 
-					const res = await jsonFetch(`https://${host}/.well-known/did.json`, { signal });
-					if (!res.ok) {
-						throw new Error(`got ${res.status}`);
+			const res = await jsonFetch(`https://${host}/.well-known/did.json`, { signal });
+			if (!res.ok) {
+				throw new Error(`got ${res.status}`);
+			}
+
+			const text = await res.text();
+			const sha256sum = await getSha256Hash(text);
+
+			if (obj.hash !== sha256sum) {
+				const json = JSON.parse(text);
+				const doc = didDocument.parse(json, { mode: 'passthrough' });
+
+				const pds = getPdsEndpoint(doc);
+				const labeler = getLabelerEndpoint(doc);
+
+				console.log(`  ${did}: pass (updated)`);
+
+				jump: if (pds) {
+					if (EXCLUSIONS_RE.test(pds)) {
+						console.log(`  found excluded pds: ${pds}`);
+						break jump;
 					}
 
-					const text = await res.text();
-					const sha256sum = await getSha256Hash(text);
+					const info = pdses.get(pds);
 
-					if (obj.hash !== sha256sum) {
-						const json = JSON.parse(text);
-						const doc = didDocument.parse(json, { mode: 'passthrough' });
-
-						const pds = getPdsEndpoint(doc);
-						const labeler = getLabelerEndpoint(doc);
-
-						console.log(`  ${did}: pass (updated)`);
-
-						jump: if (pds) {
-							if (EXCLUSIONS_RE.test(pds)) {
-								console.log(`  found excluded pds: ${pds}`);
-								break jump;
-							}
-
-							const info = pdses.get(pds);
-
-							if (info === undefined) {
-								console.log(`    found pds: ${pds}`);
-								pdses.set(pds, {});
-							} else if (info.errorAt !== undefined) {
-								// reset `errorAt` if we encounter this PDS
-								console.log(`    found pds: ${pds} (errored)`);
-								info.errorAt = undefined;
-							}
-						}
-
-						jump: if (labeler) {
-							if (EXCLUSIONS_RE.test(labeler)) {
-								console.log(`  found excluded labeler: ${labeler}`);
-								break jump;
-							}
-
-							const info = labelers.get(labeler);
-
-							if (info === undefined) {
-								console.log(`    found labeler: ${labeler}`);
-								labelers.set(labeler, { did });
-							} else {
-								if (info.errorAt !== undefined) {
-									// reset `errorAt` if we encounter this labeler
-									console.log(`    found labeler: ${labeler} (errored)`);
-									info.errorAt = undefined;
-								}
-
-								info.did = did;
-							}
-						}
-
-						obj.hash = sha256sum;
-
-						obj.pds = pds;
-						obj.labeler = labeler;
-					} else {
-						console.log(`  ${did}: pass`);
+					if (info === undefined) {
+						console.log(`    found pds: ${pds}`);
+						pdses.set(pds, {});
+					} else if (info.errorAt !== undefined) {
+						// reset `errorAt` if we encounter this PDS
+						console.log(`    found pds: ${pds} (errored)`);
+						info.errorAt = undefined;
 					}
-
-					obj.errorAt = undefined;
-				} catch (err) {
-					const errorAt = obj.errorAt;
-
-					if (errorAt === undefined) {
-						obj.errorAt = now;
-					} else if (differenceInDays(now, errorAt) > MAX_FAILURE_DAYS) {
-						// It's been days without a response, stop tracking.
-
-						didWebs.delete(did);
-					}
-
-					console.log(`  ${did}: fail (${err})`);
 				}
-			});
-		}),
-	);
+
+				jump: if (labeler) {
+					if (EXCLUSIONS_RE.test(labeler)) {
+						console.log(`  found excluded labeler: ${labeler}`);
+						break jump;
+					}
+
+					const info = labelers.get(labeler);
+
+					if (info === undefined) {
+						console.log(`    found labeler: ${labeler}`);
+						labelers.set(labeler, { did });
+					} else {
+						if (info.errorAt !== undefined) {
+							// reset `errorAt` if we encounter this labeler
+							console.log(`    found labeler: ${labeler} (errored)`);
+							info.errorAt = undefined;
+						}
+
+						info.did = did;
+					}
+				}
+
+				obj.hash = sha256sum;
+
+				obj.pds = pds;
+				obj.labeler = labeler;
+			} else {
+				console.log(`  ${did}: pass`);
+			}
+
+			obj.errorAt = undefined;
+		} catch (err) {
+			const errorAt = obj.errorAt;
+
+			if (errorAt === undefined) {
+				obj.errorAt = now;
+			} else if (differenceInDays(now, errorAt) > MAX_FAILURE_DAYS) {
+				// It's been days without a response, stop tracking.
+
+				didWebs.delete(did);
+			}
+
+			console.log(`  ${did}: fail (${err})`);
+		}
+	}, { concurrency: 8 });
 }
 
 // Persist the state

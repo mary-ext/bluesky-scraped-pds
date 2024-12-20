@@ -5,6 +5,7 @@
     "npm:@atcute/client@^2.0.6": "2.0.6",
     "npm:@badrap/valita@~0.4.2": "0.4.2",
     "npm:date-fns@^4.1.0": "4.1.0",
+    "npm:p-map@^7.0.3": "7.0.3",
     "npm:tldts@^6.1.69": "6.1.69"
   },
   "npm": {
@@ -23,6 +24,9 @@
     "date-fns@4.1.0": {
       "integrity": "sha512-Ukq0owbQXxa/U3EGtsdVBkR1w7KOQ5gIBqdH2hkvknzZPYvBxb/aa6E8L7tmjFtkwZBu3UXBbjIgPo/Ez4xaNg=="
     },
+    "p-map@7.0.3": {
+      "integrity": "sha512-VkndIv2fIB99swvQoA65bm+fsmt6UNdGeIB0oxBs+WhAhdh08QA04JXpI7rbB9r08/nkbysKoya9rtDERYOYMA=="
+    },
     "tldts-core@6.1.69": {
       "integrity": "sha512-nygxy9n2PBUFQUtAXAc122gGo+04/j5qr5TGQFZTHafTKYvmARVXt2cA5rgero2/dnXUfkdPtiJoKmrd3T+wdA=="
     },
@@ -39,6 +43,7 @@
       "npm:@atcute/client@^2.0.6",
       "npm:@badrap/valita@~0.4.2",
       "npm:date-fns@^4.1.0",
+      "npm:p-map@^7.0.3",
       "npm:tldts@^6.1.69"
     ]
   }
