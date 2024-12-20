@@ -4,6 +4,7 @@ const MAX_DURATION = 5_000;
 export const jsonFetch: typeof fetch = async (input, init) => {
 	const response = await fetch(input, {
 		...init,
+		keepalive: false,
 		signal: followAbortSignal([
 			init?.signal,
 			AbortSignal.timeout(MAX_DURATION),
