@@ -11,6 +11,10 @@ export const jsonFetch: typeof fetch = async (input, init) => {
 		]),
 	});
 
+	if (!response.ok) {
+		return response;
+	}
+
 	const headers = response.headers;
 
 	const type = headers.get('content-type');
