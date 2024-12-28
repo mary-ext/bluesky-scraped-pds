@@ -19,7 +19,7 @@ const serviceUrlString = v.string().chain((input) => {
 
 	if (
 		url !== null &&
-		(url.protocol === 'https:' || url.protocol === 'http:') &&
+		url.protocol === 'https:' &&
 		isProperHostname(url.hostname) &&
 		url.pathname === '/' &&
 		url.search === '' &&

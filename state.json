@@ -1363,9 +1363,6 @@
 		}
 	},
 	"pdses": {
-		"http://storyofundertale.com/": {
-			"version": "millipds v0.0.3.dev7+gb837ab6"
-		},
 		"https://0-7.xyz/": {
 			"inviteCodeRequired": true,
 			"version": "0.4.74"
