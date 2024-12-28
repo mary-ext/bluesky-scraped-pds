@@ -1,3 +1,5 @@
+// deno-lint-ignore-file no-explicit-any
+
 import { simpleFetchHandler, XRPC, XRPCError } from '@atcute/client';
 import * as v from '@badrap/valita';
 
