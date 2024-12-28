@@ -1,6 +1,6 @@
 # Scraped AT Protocol instances
 
-Last updated: 2024-12-28T01:29:44.843Z[^1]
+Last updated: 2024-12-28T03:19:08.087Z[^1]
 
 Found by enumerating plc.directory and bsky.network, some instances might not be
 part of mainnet.
@@ -9,11 +9,11 @@ Instances that have not been active for more than 14 days gets dropped off from 
 
 ## Personal data servers
 
-**2535** instances active  
-**2281** online  
+**2534** instances active  
+**2280** online  
 **254** offline  
 **66** hosted by Bluesky  
-**2469** hosted by third-parties
+**2468** hosted by third-parties
 
 ### Bluesky-hosted servers
 
@@ -93,7 +93,6 @@ Instances that have not been active for more than 14 days gets dropped off from 
 <!-- 3p-pds-start -->
 | PDS | Open? | Version |
 | --- | --- | --- |
-| ✅ storyofundertale.com | No | millipds v0.0.3.dev7+gb837ab6 |
 | ✅ 0-7.xyz | No | 0.4.74 |
 | ✅ 000-lolicon-rights-are.human-rights.sbs | No | 0.4.74 |
 | ✅ 040bsky.nl | No | 0.4.74 |
