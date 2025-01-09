@@ -14,7 +14,7 @@ export const DEFAULT_HEADERS = {
 // None of these are either a personal data server or labeler instance.
 // - bsky.social is an entryway, not the actual PDS.
 export const EXCLUSIONS_RE =
-	/^https?:\/\/(?:bsky\.social|bsky\.network|jetstream\d+\.[a-z-]+\.bsky\.network)\/?$/;
+	/^https?:\/\/(?:bsky\.social|bsky\.app|bsky\.network|jetstream\d+\.[a-z-]+\.bsky\.network)\/?$/;
 
 // - eclipse.pub is a nostr bridge
 export const DID_WEB_EXCLUSIONS_RE = /\.(?:eclipse\.pub)$/;

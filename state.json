@@ -3754,9 +3754,6 @@
 			"inviteCodeRequired": true,
 			"version": "0.4.74"
 		},
-		"https://bsky.app/": {
-			"errorAt": 1736382899864
-		},
 		"https://bsky.apt.sdc.sx/": {
 			"inviteCodeRequired": true,
 			"version": "0.4.74"
