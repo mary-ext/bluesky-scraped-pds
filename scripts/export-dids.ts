@@ -292,6 +292,10 @@ let firehoseCursor: number | undefined = state?.firehose.cursor;
 				const pds = getPdsEndpoint(doc);
 				const labeler = getLabelerEndpoint(doc);
 
+				if (doc.id !== did) {
+					throw new Error(`did mismatch (got ${doc.id})`);
+				}
+
 				console.log(`  ${did}: pass (updated)`);
 
 				jump: if (pds) {
