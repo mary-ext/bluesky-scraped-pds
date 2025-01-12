@@ -8531,10 +8531,6 @@
 			"inviteCodeRequired": true,
 			"version": "0.4.74"
 		},
-		"https://pds.bun.how": {
-			"inviteCodeRequired": true,
-			"version": "0.4.77"
-		},
 		"https://pds.bun.how/": {
 			"inviteCodeRequired": true,
 			"version": "0.4.77"
