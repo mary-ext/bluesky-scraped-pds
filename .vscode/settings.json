@@ -1,3 +1,4 @@
 {
-	"editor.defaultFormatter": "denoland.vscode-deno"
+	"editor.defaultFormatter": "denoland.vscode-deno",
+	"deno.enable": true
 }
