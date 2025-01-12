@@ -116,7 +116,7 @@ export const getServiceEndpoint = (
 		return undefined;
 	}
 
-	return found.serviceEndpoint;
+	return coerceAtprotoServiceEndpoint(found.serviceEndpoint);
 };
 
 export const coerceAtprotoServiceEndpoint = (endpointUrl: string | undefined): string | undefined => {
